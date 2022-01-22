@@ -1,6 +1,5 @@
 package system;
 
-import h2d.col.Point;
 import component.Camera;
 import component.Player;
 import component.Collidable;
@@ -27,7 +26,7 @@ class WordController implements IPerEntitySystem {
 		var t:Transform = cast entity.get(Transform.type);
 
 		w.duration += dt;
-		var rate = normalize(0, w.timeToTarget, w.duration);
+		var rate = MathUtils.normalizeToOne(w.duration, 0, w.timeToTarget);
 		if (rate <= 1) {
 			t.x = rate.quadIn().lerp(w.start.x, w.target.x);
 			t.y = rate.quadIn().lerp(w.start.y, w.target.y);
@@ -42,9 +41,5 @@ class WordController implements IPerEntitySystem {
 				entity.remove();
 			}
 		}
-	}
-
-	function normalize(min:Float, max:Float, value:Float) {
-		return (value - min) / (max - min);
 	}
 }
