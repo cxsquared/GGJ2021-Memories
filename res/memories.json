@@ -1,0 +1,20 @@
+{
+    "memories": [
+        {
+            "lines":[
+                "Spring break is over, but you'll always have the memories...",
+                "It's good to kick back and have ${noun} once in a while. After all, you only ${verb} once!",
+                "Always being the life of the ${noun} can be {adjective} work - but if you have some ${adjective} laughs, it's worth it!",
+                "Sometimes you must embrace the wild ${noun} lurking inside of you, lest it escape only to scare the ${pluralnoun} off your unsuspecting friends.",
+                "Too much of a good thing can be ${adjective} - like ${ingverb} too long in the hot sun.",
+                "${noun}-screen is a ${noun}'s best friend. Never leave ${noun} without it - unless you want to come home looking like a ${adjective} lobster."
+            ],
+            "nouns": ["asparagus", "undertow", "labyrinth", "grunge", "slide whistle"],
+            "pluralnoun": ["puppies", "kittens"],
+            "verbs": ["galvanize"],
+            "ingverbs": ["echolocating"],
+            "adjectives": ["sparkling", "listless", "Irish", "bountiful"]
+            
+        }
+    ]
+}

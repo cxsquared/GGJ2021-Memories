@@ -1,7 +1,6 @@
-import scenes.CollisionTest;
 import hxd.Key;
 import scenes.GameScene;
-import scenes.Pong;
+import scenes.*;
 
 class Game extends hxd.App {
 	var scene:GameScene;
@@ -12,7 +11,7 @@ class Game extends hxd.App {
 
 	override function init() {
 		hxd.Res.initEmbed();
-		setGameScene(new Pong(s2d));
+		setGameScene(new Exploration(s2d));
 	}
 
 	public function setGameScene(gs:GameScene) {
@@ -26,9 +25,6 @@ class Game extends hxd.App {
 	}
 
 	override function update(dt:Float) {
-		if (Key.isPressed(Key.R))
-			setGameScene(new Pong(s2d));
-
 		if (scene != null)
 			scene.update(dt);
 	}
