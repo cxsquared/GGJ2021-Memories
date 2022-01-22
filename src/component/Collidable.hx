@@ -40,6 +40,8 @@ class Collidable implements IComponent {
 			console.log('Target: ${event.target.id}', color);
 		}
 	}
+
+	public function remove() {}
 }
 
 enum CollisionShape {

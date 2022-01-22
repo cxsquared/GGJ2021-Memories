@@ -19,4 +19,8 @@ class Renderable implements IComponent {
 	public function log(console:Console, ?color:Null<Int>):Void {
 		console.log(' tile: ${bitmap.tile.toString()}', color);
 	}
+
+	public function remove() {
+		this.bitmap.remove();
+	}
 }

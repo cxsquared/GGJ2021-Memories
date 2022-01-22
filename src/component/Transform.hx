@@ -27,4 +27,6 @@ class Transform implements IComponent {
 		console.log('width: $width', color);
 		console.log('height: $height', color);
 	}
+
+	public function remove() {}
 }

@@ -23,4 +23,6 @@ class Velocity implements IComponent {
 		console.log('dx: $dx', color);
 		console.log('dy: $dy', color);
 	}
+
+	public function remove() {}
 }

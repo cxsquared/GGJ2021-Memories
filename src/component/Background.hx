@@ -17,4 +17,6 @@ class Background implements IComponent {
 	}
 
 	public function log(console:Console, ?color:Int) {}
+
+	public function remove() {}
 }

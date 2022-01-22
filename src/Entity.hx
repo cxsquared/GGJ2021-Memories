@@ -25,4 +25,8 @@ class Entity {
 	public function has(type:String):Bool {
 		return world.hasComponent(this, type);
 	}
+
+	public function remove() {
+		world.removeEntity(this);
+	}
 }

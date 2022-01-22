@@ -21,6 +21,17 @@ class World {
 		return entity;
 	}
 
+	public function removeEntity(entity:Entity) {
+		for (component in components.keys()) {
+			if (components[component].exists(entity.id)) {
+				components[component][entity.id].remove();
+				components[component].remove(entity.id);
+			}
+		}
+
+		entities.remove(entity);
+	}
+
 	public function addSystem(s:ISystem) {
 		systems.push(s);
 	}
