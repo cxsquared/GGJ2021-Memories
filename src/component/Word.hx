@@ -1,22 +1,21 @@
 package component;
 
+import h2d.col.Point;
 import h2d.Console;
-import h2d.Object;
-import hxd.res.DefaultFont;
-import h2d.Text;
 
 class Word implements IComponent {
 	public static final type = "Word";
 
-	public var word:String;
-	public var text:Text;
+	public var word:memories.Word;
+	public var target:Point;
+	public var start:Point;
+	public var timeToTarget:Float = .5;
+	public var duration:Float = 0;
 
-	public function new(word:String, parent:Object) {
+	public function new(word:memories.Word, start:Point, target:Point) {
 		this.word = word;
-		this.text = new Text(DefaultFont.get(), parent);
-		text.text = word;
-		text.setScale(2);
-		text.textColor = Std.int(Math.random() * 0xffffff);
+		this.target = target;
+		this.start = start;
 	}
 
 	public function getType():String {
@@ -25,7 +24,5 @@ class Word implements IComponent {
 
 	public function log(console:Console, ?color:Int) {}
 
-	public function remove() {
-		text.remove();
-	}
+	public function remove() {}
 }

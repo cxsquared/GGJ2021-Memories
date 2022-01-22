@@ -22,6 +22,7 @@ class Renderer implements IPerEntitySystem {
 
 		var position = CameraUtils.worldToScreen(transform, camera, cameraTransform);
 
-		renderable.bitmap.setPosition(position.x, position.y);
+		renderable.drawable.setPosition(position.x, position.y);
+		renderable.drawable.rotation = transform.rotation;
 	}
 }

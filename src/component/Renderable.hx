@@ -1,15 +1,15 @@
 package component;
 
+import h2d.Drawable;
 import h2d.Console;
-import h2d.Bitmap;
 
 class Renderable implements IComponent {
 	public static final type = "Renderable";
 
-	public var bitmap(default, null):Bitmap;
+	public var drawable(default, null):Drawable;
 
-	public function new(bitmap:Bitmap) {
-		this.bitmap = bitmap;
+	public function new(drawable:Drawable) {
+		this.drawable = drawable;
 	}
 
 	public function getType():String {
@@ -17,10 +17,10 @@ class Renderable implements IComponent {
 	}
 
 	public function log(console:Console, ?color:Null<Int>):Void {
-		console.log(' tile: ${bitmap.tile.toString()}', color);
+		console.log(' tile: ${drawable.name}', color);
 	}
 
 	public function remove() {
-		this.bitmap.remove();
+		this.drawable.remove();
 	}
 }

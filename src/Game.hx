@@ -1,8 +1,6 @@
 import memories.MemoryManager;
 import memories.MemoryDeserializer;
 import haxe.Json;
-import memories.Memory;
-import hxd.Key;
 import scenes.GameScene;
 import scenes.*;
 

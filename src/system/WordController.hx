@@ -1,12 +1,13 @@
 package system;
 
-import hxd.Math;
-import hxd.Timer;
+import h2d.col.Point;
 import component.Camera;
 import component.Player;
 import component.Collidable;
 import component.Transform;
 import component.Word;
+
+using tweenxcore.Tools;
 
 class WordController implements IPerEntitySystem {
 	public var forComponents:Array<String> = [Word.type, Transform.type, Collidable.type];
@@ -21,14 +22,17 @@ class WordController implements IPerEntitySystem {
 	}
 
 	public function update(entity:Entity, dt:Float) {
-		var word:Word = cast entity.get(Word.type);
-		var t:Transform = cast entity.get(Transform.type);
 		var c:Collidable = cast entity.get(Collidable.type);
+		var w:Word = cast entity.get(Word.type);
+		var t:Transform = cast entity.get(Transform.type);
 
-		var position = CameraUtils.worldToScreen(t, camera, cameraTransform);
-		word.text.setPosition(position.x, Math.sin(tick += dt) * Math.random(5) + position.y);
-		t.width = word.text.textWidth;
-		t.height = word.text.textHeight;
+		w.duration += dt;
+		var rate = normalize(0, w.timeToTarget, w.duration);
+		if (rate <= 1) {
+			t.x = rate.quadIn().lerp(w.start.x, w.target.x);
+			t.y = rate.quadIn().lerp(w.start.y, w.target.y);
+			t.rotation = rate.linear().lerp(0, 2 * Math.PI);
+		}
 
 		if (c.colliding) {
 			var target = c.event.target;
@@ -37,5 +41,9 @@ class WordController implements IPerEntitySystem {
 				entity.remove();
 			}
 		}
+	}
+
+	function normalize(min:Float, max:Float, value:Float) {
+		return (value - min) / (max - min);
 	}
 }

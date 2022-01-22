@@ -24,7 +24,7 @@ class TreeController implements IPerEntitySystem {
 		var c:Collidable = cast entity.get(Collidable.type);
 
 		if (c.colliding && c.event.target.has(Player.type) && Key.isPressed(Key.SPACE)) {
-			treeCollisionCallback(Math.srand(25) + transform.x, Math.srand(25) + transform.y, "word");
+			treeCollisionCallback(transform.x, transform.y, "word");
 		}
 	}
 }

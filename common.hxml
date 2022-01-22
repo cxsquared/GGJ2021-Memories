@@ -1,4 +1,5 @@
 -cp src
 -lib heaps
+-lib tweenxcore
 -main Main
 --debug

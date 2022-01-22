@@ -7,6 +7,7 @@ class Transform implements IComponent {
 
 	public var x:Float;
 	public var y:Float;
+	public var rotation:Float; // In radians
 	public var width:Float;
 	public var height:Float;
 

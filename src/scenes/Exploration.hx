@@ -1,5 +1,8 @@
 package scenes;
 
+import h2d.col.Point;
+import component.Bounce;
+import system.Bouncer;
 import hxd.Key;
 import hxd.Math;
 import component.Tree;
@@ -56,15 +59,19 @@ class Exploration extends GameScene {
 			.add(new Velocity());
 
 		var tree = hxd.Res.temptree.toTile();
-		tree.scaleToSize(32, 64);
-		world.newEntity()
-			.add(new Tree())
-			.add(new Transform(Math.random(s2d.width), Math.random(s2d.height), 16, 64))
-			.add(new Collidable(CollisionShape.CIRCLE, 30))
-			.add(new Renderable(new Bitmap(tree, this)));
+		for (i in 0...25) {
+			var width = Math.random(32) + 16;
+			tree.scaleToSize(width, width * 2);
+			world.newEntity()
+				.add(new Tree())
+				.add(new Transform(Math.random(s2d.width), Math.random(s2d.height), 16, 64))
+				.add(new Collidable(CollisionShape.CIRCLE, 30))
+				.add(new Renderable(new Bitmap(tree, this)));
+		}
 
 		world.addSystem(new PlayerController());
 		world.addSystem(new Collision());
+		world.addSystem(new Bouncer());
 		world.addSystem(new TreeController(spawnWord));
 		world.addSystem(new WordController(camera));
 		world.addSystem(new Renderer(camera));
@@ -98,9 +105,18 @@ class Exploration extends GameScene {
 			return;
 		}
 
+		var text = new Text(DefaultFont.get(), this);
+		text.text = word.text;
+		text.setScale(2);
+		text.textColor = Std.int(Math.random() * 0xffffff);
+		var start = new Point(x, y);
+		var target = new Point(Math.srand(45) + x, Math.srand(45) + y);
+
 		world.newEntity()
-			.add(new Word(word.text, this))
-			.add(new Transform(x, y, 0, 0))
-			.add(new Collidable(CollisionShape.CIRCLE, 15));
+			.add(new Word(word, start, target))
+			.add(new Renderable(text))
+			.add(new Transform(x, y, text.textWidth, text.textHeight))
+			.add(new Collidable(CollisionShape.CIRCLE, 15, 0, 0, 0x0000FF))
+			.add(new Bounce());
 	}
 }
