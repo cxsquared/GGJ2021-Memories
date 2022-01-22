@@ -8,7 +8,9 @@ class Ui implements IComponent {
 
 	public var drawable(default, null):Drawable;
 
-	public function new(drawable:Drawable) {}
+	public function new(drawable:Drawable) {
+		this.drawable = drawable;
+	}
 
 	public function getType():String {
 		return type;

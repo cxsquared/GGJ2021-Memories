@@ -4,12 +4,18 @@ class Entity {
 	static var lastId = 0;
 
 	public var id(default, null):Int;
+	public var name(default, null):String;
 
 	var world:World;
 
-	public function new(world:World):Void {
+	public function new(world:World, ?name:String):Void {
 		this.id = Entity.lastId++;
 		this.world = world;
+		if (name != null || name == "") {
+			this.name = name;
+		} else {
+			this.name = Std.string(id);
+		}
 	}
 
 	public function add(component:IComponent):Entity {

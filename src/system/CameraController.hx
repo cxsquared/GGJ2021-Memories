@@ -28,6 +28,9 @@ class CameraController implements IPerEntitySystem {
 		var camera:Camera = cast entity.get(Camera.type);
 		var target = camera.target;
 
+		if (target == null)
+			return;
+
 		if (!target.has(Transform.type)) {
 			console.log("Camera target must have a Transform component");
 			return;

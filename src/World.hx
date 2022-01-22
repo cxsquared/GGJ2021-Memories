@@ -15,8 +15,8 @@ class World {
 		systems = new Array<ISystem>();
 	}
 
-	public function newEntity() {
-		var entity = new Entity(this);
+	public function newEntity(?name:String) {
+		var entity = new Entity(this, name);
 		entities.push(entity);
 		return entity;
 	}

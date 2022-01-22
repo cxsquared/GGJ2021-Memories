@@ -33,7 +33,7 @@ class WordController implements IPerEntitySystem {
 			t.rotation = rate.linear().lerp(0, 2 * Math.PI);
 		}
 
-		if (c.colliding) {
+		if (c.colliding && rate >= 1) {
 			var target = c.event.target;
 
 			if (target.has(Player.type)) {

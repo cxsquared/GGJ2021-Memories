@@ -162,6 +162,9 @@ class Memory {
 
 	function getNeededWordTypes(line:String):Array<WordType> {
 		var types = new Array<WordType>();
+		if (line == null || line == "")
+			return types;
+
 		var fillIns = line.split("${");
 		if (fillIns[0] == line)
 			return types;
