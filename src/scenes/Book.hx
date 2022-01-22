@@ -1,8 +1,11 @@
 package scenes;
 
+import h3d.shader.PointShadow;
+import format.tgz.Data;
 import component.Madlib;
 import h2d.col.Point;
 import h2d.Console;
+import h2d.col.Collider;
 import h2d.Scene;
 import hxd.res.DefaultFont;
 import h2d.Text;
@@ -13,13 +16,14 @@ import component.Madlib;
 import component.Renderable;
 import component.Transform;
 import component.Bounce;
+import component.Drag;
 import component.Collidable;
 import system.Collision;
 import system.Bouncer;
 import system.WordController;
 import component.Camera;
 import system.Renderer;
-import system.BookWordController;
+import system.DragController;
 import component.Transform;
 import component.Velocity;
 import system.CollisionDebug;
@@ -54,6 +58,7 @@ class Book extends GameScene {
 		world.addSystem(new WordController(camera));
 		world.addSystem(new Renderer(camera));
 		world.addSystem(new CollisionDebug(camera, this));
+		world.addSystem(new DragController(camera));
 		spawnWords();
 	}
 
@@ -82,12 +87,14 @@ class Book extends GameScene {
 			var y = 1000;
 			var start = new Point(x, y);
 			var target = new Point(Math.srand(width / 2) + (width / 2), Math.srand(height / 2) + (height / 2));
+			var collider = new Collidable(CollisionShape.CIRCLE, 30, 0, 0, 0x0000FF);
 			world.newEntity()
 				.add(new Word(word, start, target))
 				.add(new Renderable(text))
 				.add(new Transform(x, y, text.textWidth, text.textHeight))
-				.add(new Collidable(CollisionShape.CIRCLE, 30, 0, 0, 0x0000FF))
-				.add(new Bounce());
+				.add(collider)
+				.add(new Bounce())
+				.add(new Drag());
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package component;
 
+import h2d.Object;
 import h2d.Console;
 import h2d.col.Bounds;
 import h2d.col.Circle;

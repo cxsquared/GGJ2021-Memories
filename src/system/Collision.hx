@@ -4,7 +4,7 @@ import system.IAllEntitySystem.IAllEntitySystems;
 import component.Collidable;
 import component.Transform;
 
-class Collision implements IAllEntitySystems {
+class Collision implements IAllEntitySystems  {
 	public var forComponents:Array<String> = [Collidable.type, Transform.type];
 
 	public function new() {}
