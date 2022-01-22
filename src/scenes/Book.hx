@@ -58,7 +58,7 @@ class Book extends GameScene {
 		world.addSystem(new WordController(camera));
 		world.addSystem(new Renderer(camera));
 		world.addSystem(new CollisionDebug(camera, this));
-		world.addSystem(new DragController(camera));
+		world.addSystem(new DragController(camera, s2d));
 		spawnWords();
 	}
 

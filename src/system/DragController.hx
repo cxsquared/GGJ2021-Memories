@@ -7,6 +7,7 @@ import component.Collidable;
 import component.Transform;
 import component.Drag;
 import component.Word;
+import h2d.Scene;
 
 using tweenxcore.Tools;
 
@@ -16,10 +17,12 @@ class DragController implements IPerEntitySystem {
 	public var cameraTransform:Transform;
 	public var camera:Camera;
 	public var tick:Float = 0;
+	var scene:Scene;
 
-	public function new(camera:Entity) {
+	public function new(camera:Entity, scene:Scene) {
 		this.camera = cast camera.get(Camera.type);
 		this.cameraTransform = cast camera.get(Transform.type);
+		this.scene = scene;
 	}
 
 	public function update(entity:Entity, dt:Float) {
@@ -31,6 +34,8 @@ class DragController implements IPerEntitySystem {
 
 		if (d.isDragging){
 			w.word.text = "O:IJEFWO:JIFWO:";
+			t.x = scene.mouseX;
+			t.y = scene.mouseY;
 		}
 	}
 }
