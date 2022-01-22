@@ -29,8 +29,7 @@ class DragController implements IPerEntitySystem {
 		d.interaction.x = t.x;
 		d.interaction.y = t.y;
 
-		if (d.isClicked){
-			d.isClicked = false;
+		if (d.isDragging){
 			w.word.text = "O:IJEFWO:JIFWO:";
 		}
 	}
