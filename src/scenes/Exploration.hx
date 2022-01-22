@@ -9,9 +9,7 @@ import component.Tree;
 import system.TreeController;
 import system.Collision;
 import system.CollisionDebug;
-import h3d.shader.Outline;
 import system.WordController;
-import h3d.shader.Parallax;
 import component.Collidable;
 import component.Word;
 import h2d.Text;
@@ -28,7 +26,6 @@ import system.Renderer;
 import h2d.Bitmap;
 import component.Renderable;
 import h2d.Tile;
-import component.Background;
 import h2d.Scene;
 import hxd.Res;
 
@@ -54,7 +51,7 @@ class Exploration extends GameScene {
 			.add(new Velocity());
 
 		var camera = world.newEntity()
-			.add(new Camera(player, Bounds.fromValues(0, 0, 1000, 1000), s2d.width / 2, s2d.height / 2))
+			.add(new Camera(player, Bounds.fromValues(0, 0, bgTile.width, bgTile.height), s2d.width / 2, s2d.height / 2))
 			.add(new Transform())
 			.add(new Velocity());
 
@@ -64,7 +61,7 @@ class Exploration extends GameScene {
 			tree.scaleToSize(width, width * 2);
 			world.newEntity()
 				.add(new Tree())
-				.add(new Transform(Math.random(s2d.width), Math.random(s2d.height), 16, 64))
+				.add(new Transform(Math.random(bgTile.width), Math.random(bgTile.height), 16, 64))
 				.add(new Collidable(CollisionShape.CIRCLE, 30))
 				.add(new Renderable(new Bitmap(tree, this)));
 		}

@@ -2,8 +2,10 @@ package memories;
 
 class MemoryManager {
 	var currentMemeory = 0;
-	var usedMemories:Array<Int> = new Array<Int>();
-	var memories:Array<Memory> = new Array<Memory>();
+	var usedMemories = new Array<Int>();
+	var memories = new Array<Memory>();
+
+	public var pickedUpWords = new Array<Word>();
 
 	public function new(memories:Array<Memory>) {
 		this.memories = memories;

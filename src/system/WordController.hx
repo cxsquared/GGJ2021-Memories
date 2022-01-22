@@ -38,6 +38,7 @@ class WordController implements IPerEntitySystem {
 			var target = c.event.target;
 
 			if (target.has(Player.type)) {
+				Game.memories.pickedUpWords.push(w.word);
 				entity.remove();
 			}
 		}
