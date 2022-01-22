@@ -2,15 +2,15 @@ package component;
 
 import h2d.Console;
 import h2d.Interactive;
-import h2d.Object;
+import h2d.col.Collider;
 
 class Drag implements IComponent {
 	public static final type = "Drag";
 	public var interaction:Interactive;
 	public var isClicked:Bool = false;
 
-	public function new() {
-		interaction = new h2d.Interactive(500, 500);
+	public function new(collider:Collider) {
+		interaction = new h2d.Interactive(500, 500, collider);
 
 		interaction.onClick = function(event : hxd.Event) {
 			isClicked = true;
@@ -25,5 +25,4 @@ class Drag implements IComponent {
 	public function log(console:Console, ?color:Int) {}
 
 	public function remove() {}
-	
 }

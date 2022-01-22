@@ -94,7 +94,7 @@ class Book extends GameScene {
 				.add(new Transform(x, y, text.textWidth, text.textHeight))
 				.add(collider)
 				.add(new Bounce())
-				.add(new Drag());
+				.add(new Drag(collider.getCollider()));
 		}
 	}
 }
