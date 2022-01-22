@@ -1,17 +1,28 @@
 package system;
 
+import h2d.col.Point;
 import component.Transform;
 import component.Renderable;
+import component.Camera;
 
 class Renderer implements IPerEntitySystem {
 	public var forComponents:Array<String> = [Renderable.type, Transform.type];
 
-	public function new() {}
+	public var cameraTransform:Transform;
+	public var camera:Camera;
+
+	public function new(camera:Entity) {
+		this.camera = cast camera.get(Camera.type);
+		this.cameraTransform = cast camera.get(Transform.type);
+	}
 
 	public function update(entity:Entity, dt:Float) {
 		var renderable:Renderable = cast entity.get(Renderable.type);
 		var transform:Transform = cast entity.get(Transform.type);
 
-		renderable.bitmap.setPosition(transform.x, transform.y);
+		var position = new Point(transform.x, transform.y);
+		position = position.sub(new Point(cameraTransform.x - camera.offsetX, cameraTransform.y - camera.offsetY));
+
+		renderable.bitmap.setPosition(position.x, position.y);
 	}
 }

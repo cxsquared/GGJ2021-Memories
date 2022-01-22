@@ -36,24 +36,23 @@ class CameraController implements IPerEntitySystem {
 		var targetTransform = cast target.get(Transform.type);
 
 		// Follow target entity
-		var s = 0.006;
-		var deadZone = 5;
 		var cameraPoint = new Point(t.x, t.y);
 		var targetPoint = new Point(targetTransform.x, targetTransform.y);
 
 		var d = cameraPoint.distance(targetPoint);
-		if (d >= deadZone) {
-			var a = Math.cameraPoint.ang;
-			dx += Math.cos(a) * (d - deadZone) * s * tmod;
-			dy += Math.sin(a) * (d - deadZone) * s * tmod;
+		if (d >= camera.deadzone) {
+			var xDir = cameraPoint.x < targetPoint.x ? 1 : -1;
+			var yDir = cameraPoint.y < targetPoint.y ? 1 : -1;
+
+			v.dx += xDir * (d - camera.deadzone) * camera.speed * dt;
+			v.dy += yDir * (d - camera.deadzone) * camera.speed * dt;
 		}
 
 		// Movements
-		var frict = 0.89;
-		focus.levelX += dx * tmod;
-		dx *= Math.pow(frict, tmod);
+		t.x += v.dx;
+		v.dx *= v.friction * dt;
 
-		focus.levelY += dy * tmod;
-		dy *= Math.pow(frict, tmod);
+		t.y += v.dy;
+		v.dy *= v.friction * dt;
 	}
 }

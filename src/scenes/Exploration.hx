@@ -1,5 +1,6 @@
 package scenes;
 
+import h2d.col.Bounds;
 import system.PlayerController;
 import component.Velocity;
 import component.Camera;
@@ -38,11 +39,14 @@ class Exploration extends GameScene {
 			.add(new Transform(0, 0, 32, 32))
 			.add(new Velocity());
 
-		world.newEntity().add(new Camera(player, this));
+		var camera = world.newEntity()
+			.add(new Camera(player, Bounds.fromValues(0, 0, 1000, 1000), s2d.width / 2, s2d.height / 2))
+			.add(new Transform())
+			.add(new Velocity());
 
 		world.addSystem(new PlayerController());
 		world.addSystem(new CameraController(s2d, console));
-		world.addSystem(new Renderer());
+		world.addSystem(new Renderer(camera));
 	}
 
 	override function update(dt:Float) {
