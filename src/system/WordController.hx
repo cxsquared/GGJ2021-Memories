@@ -1,5 +1,7 @@
 package system;
 
+import hxd.Math;
+import hxd.Timer;
 import component.Camera;
 import component.Player;
 import component.Collidable;
@@ -11,6 +13,7 @@ class WordController implements IPerEntitySystem {
 
 	public var cameraTransform:Transform;
 	public var camera:Camera;
+	public var tick:Float = 0;
 
 	public function new(camera:Entity) {
 		this.camera = cast camera.get(Camera.type);
@@ -23,7 +26,9 @@ class WordController implements IPerEntitySystem {
 		var c:Collidable = cast entity.get(Collidable.type);
 
 		var position = CameraUtils.worldToScreen(t, camera, cameraTransform);
-		word.text.setPosition(position.x, position.y);
+		word.text.setPosition(position.x, Math.sin(tick += dt) * Math.random(5) + position.y);
+		t.width = word.text.textWidth;
+		t.height = word.text.textHeight;
 
 		if (c.colliding) {
 			var target = c.event.target;

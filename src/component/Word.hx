@@ -15,6 +15,8 @@ class Word implements IComponent {
 		this.word = word;
 		this.text = new Text(DefaultFont.get(), parent);
 		text.text = word;
+		text.setScale(2);
+		text.textColor = Std.int(Math.random() * 0xffffff);
 	}
 
 	public function getType():String {

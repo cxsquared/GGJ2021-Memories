@@ -1,5 +1,9 @@
 package scenes;
 
+import hxd.Key;
+import hxd.Math;
+import component.Tree;
+import system.TreeController;
 import system.Collision;
 import system.CollisionDebug;
 import h3d.shader.Outline;
@@ -51,13 +55,20 @@ class Exploration extends GameScene {
 			.add(new Transform())
 			.add(new Velocity());
 
-		spawnWord(s2d.width / 2, s2d.height / 2, "Hello World!");
+		var tree = hxd.Res.temptree.toTile();
+		tree.scaleToSize(32, 64);
+		world.newEntity()
+			.add(new Tree())
+			.add(new Transform(Math.random(s2d.width), Math.random(s2d.height), 16, 64))
+			.add(new Collidable(CollisionShape.CIRCLE, 30))
+			.add(new Renderable(new Bitmap(tree, this)));
 
 		world.addSystem(new PlayerController());
 		world.addSystem(new Collision());
+		world.addSystem(new TreeController(spawnWord));
 		world.addSystem(new WordController(camera));
 		world.addSystem(new Renderer(camera));
-		world.addSystem(new CollisionDebug());
+		world.addSystem(new CollisionDebug(camera, this));
 
 		console = new Console(DefaultFont.get(), this);
 		console.addCommand("debug", "", [], function() {
@@ -68,12 +79,27 @@ class Exploration extends GameScene {
 	}
 
 	override function update(dt:Float) {
+		#if debug
+		if (Key.isPressed(Key.PGDOWN)) {
+			Game.memories.getCurrentMemory().advanceLine();
+		}
+		if (Key.isPressed(Key.NUMBER_1)) {
+			var line = Game.memories.getCurrentMemory().getCurrentLine();
+			console.log(line);
+		}
+		#end
 		world.update(dt);
 	}
 
 	function spawnWord(x:Float, y:Float, word:String) {
+		var word = Game.memories.getCurrentMemory().getWord();
+
+		if (word == null) {
+			return;
+		}
+
 		world.newEntity()
-			.add(new Word(word, this))
+			.add(new Word(word.text, this))
 			.add(new Transform(x, y, 0, 0))
 			.add(new Collidable(CollisionShape.CIRCLE, 15));
 	}

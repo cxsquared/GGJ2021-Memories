@@ -1,5 +1,8 @@
 package system;
 
+import component.Camera;
+import hxsl.Cache;
+import component.Transform;
 import hxd.Key;
 import h2d.Object;
 import system.IAllEntitySystem.IAllEntitySystems;
@@ -11,8 +14,13 @@ class CollisionDebug implements IAllEntitySystems {
 
 	var graphics = new Graphics();
 
-	public function new(?parent:Object) {
+	public var cameraTransform:Transform;
+	public var camera:Camera;
+
+	public function new(camera:Entity, ?parent:Object) {
 		graphics = new Graphics(parent);
+		this.camera = cast camera.get(Camera.type);
+		this.cameraTransform = cast camera.get(Transform.type);
 	}
 
 	public function update(entity:Entity, dt:Float) {}
@@ -37,11 +45,13 @@ class CollisionDebug implements IAllEntitySystems {
 				switch (collidable.shape) {
 					case CIRCLE:
 						var circle = collidable.circle;
-						graphics.drawCircle(circle.x, circle.y, circle.ray);
+						var point = CameraUtils.worldToScreen(new Transform(circle.x, circle.y), camera, cameraTransform);
+						graphics.drawCircle(point.x, point.y, circle.ray);
 
 					case BOUNDS:
 						var bounds = collidable.bounds;
-						graphics.drawRect(bounds.x, bounds.y, bounds.width, bounds.height);
+						var point = CameraUtils.worldToScreen(new Transform(bounds.x, bounds.y), camera, cameraTransform);
+						graphics.drawRect(point.x, point.y, bounds.width, bounds.height);
 				}
 			}
 		}
