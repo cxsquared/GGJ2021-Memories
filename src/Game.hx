@@ -3,6 +3,8 @@ import memories.MemoryDeserializer;
 import haxe.Json;
 import scenes.GameScene;
 import scenes.*;
+import hxd.Key;
+import scenes.Book;
 
 class Game extends hxd.App {
 	var scene:GameScene;
@@ -35,5 +37,7 @@ class Game extends hxd.App {
 	override function update(dt:Float) {
 		if (scene != null)
 			scene.update(dt);
+		if (Key.isPressed(Key.R))
+			setGameScene(new Book(s2d));
 	}
 }
