@@ -1,5 +1,4 @@
 import h2d.Console;
-import haxe.Json;
 import system.IPerEntitySystem;
 import system.IAllEntitySystem.IAllEntitySystems;
 import system.ISystem;

@@ -7,10 +7,12 @@ class Velocity implements IComponent {
 
 	public var dx:Float;
 	public var dy:Float;
+	public var friction:Float;
 
-	public function new(?dx:Float = 0, ?dy:Float = 0) {
+	public function new(?dx:Float = 0, ?dy:Float = 0, ?friction:Float = .95) {
 		this.dx = dx;
 		this.dy = dy;
+		this.friction = friction;
 	}
 
 	public function getType():String {
