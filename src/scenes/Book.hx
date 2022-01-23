@@ -4,7 +4,6 @@ import system.UiRenderer;
 import component.Ui;
 import h2d.col.Point;
 import h2d.Console;
-import h2d.Scene;
 import hxd.res.DefaultFont;
 import h2d.Text;
 import hxd.Math;
@@ -16,7 +15,10 @@ import system.Bouncer;
 import system.WordController;
 import system.DragController;
 import component.Transform;
-import component.Velocity;
+import h2d.Scene;
+import hxd.Res;
+import component.Renderable;
+import h2d.Bitmap;
 
 class Book extends GameScene {
 	var console:Console;
@@ -32,6 +34,12 @@ class Book extends GameScene {
 		console.addCommand("debug", "", [], function() {
 			world.debugLog(console);
 		});
+		var window = Window.getInstance();
+		var bgTile = Res.bookbackground.toTile();
+		var bitmap = new Bitmap(bgTile, this);
+		bitmap.width = window.width;
+		bitmap.height = window.height;
+		world.newEntity("bookbackground").add(new Transform()).add(new Renderable(bitmap));
 
 		world.addSystem(new DragController(s2d));
 		world.addSystem(new Bouncer());
@@ -49,16 +57,17 @@ class Book extends GameScene {
 	function spawnMemory() : Float{
 		var memory = Game.memories.getCurrentMemory();
 		var lineNumber = 0;
+		var xCoordinate = 45;
 		var yCoordinate = 0.0;
-		var color = Std.int(Math.random() * 0xffffff);
+		var color = Std.int(Math.random() * 0x000000);
 		for (line in memory.displayLines) {
 			var text = new Text(DefaultFont.get(), this);
 			var textHeight = text.textHeight * text.scaleY * 2;
-			yCoordinate = lineNumber * textHeight;
-			var target = new Point(0, yCoordinate);
+			yCoordinate = lineNumber * textHeight + 35;
+			var target = new Point(xCoordinate, yCoordinate);
 			text.text = line;
-			text.setScale(2);
-			text.textColor = color;
+			text.setScale(1.5);
+			text.textColor = 0x000000;
 			world.newEntity()
 				.add(new Word(new memories.Word(line, null), new Point(0,0), target))
 				.add(new Ui(text))
