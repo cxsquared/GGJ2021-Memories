@@ -77,7 +77,7 @@ class Book extends GameScene {
 		layer.under(bitmap);
 		world.newEntity()
 			.add(new Ui(bitmap))
-			.add(new Word(word, target, target))
+			.add(new Word(word, target, target, false))
 			.add(new Transform(0, 0, text.calcTextWidth(word.text) * text.scaleX, text.textHeight * text.scaleY))
 			.add(new Button(this, text.calcTextWidth(word.text) * text.scaleX, text.textHeight * text.scaleY))
 			.add(new Bounce());
@@ -101,7 +101,7 @@ class Book extends GameScene {
 			if (lineLength > longestLine)
 				longestLine = lineLength;
 			world.newEntity()
-				.add(new Word(new memories.Word(line, null), new Point(0,0), target))
+				.add(new Word(new memories.Word(line, null), new Point(0,0), target, false))
 				.add(new Ui(text))
 				.add(new Transform(x, y, text.calcTextWidth(line) * text.scaleX, text.textHeight * text.scaleY))
 				.add(new Bounce());

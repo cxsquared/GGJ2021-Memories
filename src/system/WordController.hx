@@ -24,7 +24,8 @@ class WordController implements IPerEntitySystem {
 		if (rate <= 1) {
 			t.x = rate.quadIn().lerp(w.start.x, w.target.x);
 			t.y = rate.quadIn().lerp(w.start.y, w.target.y);
-			t.rotation = rate.linear().lerp(0, 2 * Math.PI);
+			if (w.rotate)
+				t.rotation = rate.linear().lerp(0, 2 * Math.PI);
 		}
 
 		if (entity.has(Collidable.type)) {
