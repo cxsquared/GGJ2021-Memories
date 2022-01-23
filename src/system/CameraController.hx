@@ -44,11 +44,10 @@ class CameraController implements IPerEntitySystem {
 
 		var d = cameraPoint.distance(targetPoint);
 		if (d >= camera.deadzone) {
-			var xDir = cameraPoint.x < targetPoint.x ? 1 : -1;
-			var yDir = cameraPoint.y < targetPoint.y ? 1 : -1;
+			var angle = Math.atan2(targetPoint.y - cameraPoint.y, targetPoint.x - cameraPoint.x);
 
-			v.dx += xDir * (d - camera.deadzone) * camera.speed * dt;
-			v.dy += yDir * (d - camera.deadzone) * camera.speed * dt;
+			v.dx += Math.cos(angle) * (d - camera.deadzone) * camera.speed * dt;
+			v.dy += Math.sin(angle) * (d - camera.deadzone) * camera.speed * dt;
 		}
 
 		// Movements

@@ -52,7 +52,7 @@ class Exploration extends GameScene {
 	override function init() {
 		s2d = getScene();
 
-		var bgTile = Res.tempbackground.toTile();
+		var bgTile = Res.bg.toTile();
 		world.newEntity("bg").add(new Transform()).add(new Renderable(new Bitmap(bgTile, this)));
 
 		var player = world.newEntity("player")
@@ -104,8 +104,13 @@ class Exploration extends GameScene {
 		world.addSystem(new CollisionDebug(camera, this));
 
 		console = new Console(DefaultFont.get(), this);
-		console.addCommand("debug", "", [], function() {
-			world.debugLog(console);
+		console.addCommand("debug", "", [{name: "name", t: AString}], function(name:String) {
+			if (name == null) {
+				world.debugLog(console);
+				return;
+			}
+
+			world.debugEntity(console, name);
 		});
 
 		world.addSystem(new CameraController(s2d, console));
