@@ -1,3 +1,4 @@
+import memories.Word;
 import memories.MemoryManager;
 import memories.MemoryDeserializer;
 import haxe.Json;
@@ -21,7 +22,11 @@ class Game extends hxd.App {
 		var memoryFile = Json.parse(memoryText);
 		memories = new MemoryManager(MemoryDeserializer.deserializeMemoryJson(memoryFile));
 
-		setGameScene(new Exploration(s2d));
+		memories.pickedUpWords.push(new Word("hello world", WordType.NOUN));
+		memories.pickedUpWords.push(new Word("test", WordType.VERB));
+		memories.pickedUpWords.push(new Word("yep", WordType.ADJECTIVES));
+
+		setGameScene(new Book(s2d));
 	}
 
 	public function setGameScene(gs:GameScene) {

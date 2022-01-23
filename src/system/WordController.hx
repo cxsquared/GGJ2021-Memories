@@ -9,19 +9,13 @@ import component.Word;
 using tweenxcore.Tools;
 
 class WordController implements IPerEntitySystem {
-	public var forComponents:Array<String> = [Word.type, Transform.type, Collidable.type];
+	public var forComponents:Array<String> = [Word.type, Transform.type];
 
-	public var cameraTransform:Transform;
-	public var camera:Camera;
 	public var tick:Float = 0;
 
-	public function new(camera:Entity) {
-		this.camera = cast camera.get(Camera.type);
-		this.cameraTransform = cast camera.get(Transform.type);
-	}
+	public function new() {}
 
 	public function update(entity:Entity, dt:Float) {
-		var c:Collidable = cast entity.get(Collidable.type);
 		var w:Word = cast entity.get(Word.type);
 		var t:Transform = cast entity.get(Transform.type);
 
@@ -33,12 +27,15 @@ class WordController implements IPerEntitySystem {
 			t.rotation = rate.linear().lerp(0, 2 * Math.PI);
 		}
 
-		if (c.colliding && rate >= 1) {
-			var target = c.event.target;
+		if (entity.has(Collidable.type)) {
+			var c:Collidable = cast entity.get(Collidable.type);
+			if (c.colliding && rate >= 1) {
+				var target = c.event.target;
 
-			if (target.has(Player.type)) {
-				Game.memories.pickedUpWords.push(w.word);
-				entity.remove();
+				if (target.has(Player.type)) {
+					Game.memories.pickedUpWords.push(w.word);
+					entity.remove();
+				}
 			}
 		}
 	}

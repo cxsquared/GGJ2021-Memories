@@ -76,7 +76,7 @@ class Exploration extends GameScene {
 		world.addSystem(new Collision());
 		world.addSystem(new Bouncer());
 		world.addSystem(new TreeController(spawnWord));
-		world.addSystem(new WordController(camera));
+		world.addSystem(new WordController());
 		world.addSystem(new DialogueController());
 		world.addSystem(new Renderer(camera));
 		world.addSystem(new UiRenderer());

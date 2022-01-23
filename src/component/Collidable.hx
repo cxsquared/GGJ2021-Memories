@@ -17,7 +17,7 @@ class Collidable implements IComponent {
 	public var bounds:Bounds;
 	public var shape:CollisionShape;
 
-	public function getCollider():Collider{
+	public function getCollider():Collider {
 		switch (shape) {
 			case CIRCLE:
 				return this.circle;
