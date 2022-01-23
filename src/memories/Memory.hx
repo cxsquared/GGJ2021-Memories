@@ -133,7 +133,7 @@ class Memory {
 	}
 
 	public function hasNextLine():Bool {
-		return currentLine < lines.length;
+		return currentLine + 1 < lines.length;
 	}
 
 	public function advanceLine():Bool {

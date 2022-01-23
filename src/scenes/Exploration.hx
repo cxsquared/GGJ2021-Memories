@@ -168,6 +168,7 @@ class Exploration extends GameScene {
 		#if debug
 		if (Key.isPressed(Key.PGDOWN)) {
 			Game.memories.getCurrentMemory().advanceLine();
+			wordsThatNeedPickedUp = 0;
 		}
 		if (Key.isPressed(Key.NUMBER_1)) {
 			var line = Game.memories.getCurrentMemory().getCurrentLine();
@@ -243,7 +244,7 @@ class Exploration extends GameScene {
 		var bgSize = bg.getSize();
 		var tf = new h2d.Text(DefaultFont.get(), parent);
 		tf.setScale(1.5);
-		tf.maxWidth = 500;
+		tf.maxWidth = 425;
 		tf.y = s2d.height - bgSize.height / 2 - (tf.textHeight * tf.scaleY);
 		tf.x = 50;
 		tf.dropShadow = {
@@ -262,6 +263,7 @@ class Exploration extends GameScene {
 
 	var firstClick = true;
 	var readyToexit = false;
+	var wordsThatNeedPickedUp = 0;
 
 	function handleBookClick() {
 		var currentMemeory = Game.memories.getCurrentMemory();
@@ -272,6 +274,7 @@ class Exploration extends GameScene {
 			while (!currentMemeory.lineNeedsWords()) {
 				currentMemeory.advanceLine();
 				lines.push('"${currentMemeory.getCurrentLineWithBlanks()}"');
+				wordsThatNeedPickedUp += currentMemeory.wordsToFind;
 			}
 
 			lines.push("Hun I think I remember this happening...");
@@ -280,6 +283,11 @@ class Exploration extends GameScene {
 
 			firstClick = false;
 			makeDialogue(world, lines, s2d, this);
+			return;
+		}
+
+		if (Game.memories.pickedUpWords.length < wordsThatNeedPickedUp) {
+			makeDialogue(world, ["I still have words to pick up"], s2d, this);
 			return;
 		}
 
@@ -297,6 +305,7 @@ class Exploration extends GameScene {
 		if (currentMemeory.wordsToFind <= 0 && !readyToexit) {
 			var advanced = currentMemeory.advanceLine();
 			if (advanced) {
+				wordsThatNeedPickedUp += currentMemeory.wordsToFind;
 				var memoryLines = [
 					"What was next..?",
 					"I think I'm starting to remember",
