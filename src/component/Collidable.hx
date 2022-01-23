@@ -1,5 +1,6 @@
 package component;
 
+import h2d.col.Collider;
 import h2d.Console;
 import h2d.col.Bounds;
 import h2d.col.Circle;
@@ -15,6 +16,15 @@ class Collidable implements IComponent {
 	public var circle:Circle;
 	public var bounds:Bounds;
 	public var shape:CollisionShape;
+
+	public function getCollider():Collider {
+		switch (shape) {
+			case CIRCLE:
+				return this.circle;
+			case BOUNDS:
+				return this.bounds;
+		}
+	}
 
 	public function new(?shape:CollisionShape = CIRCLE, ?radius:Int = 15, ?width:Float, ?height:Float, ?debugColor:Int = 0xFF0000) {
 		this.shape = shape;

@@ -16,6 +16,7 @@ class Transform implements IComponent {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.rotation = 0;
 	}
 
 	public function getType():String {
