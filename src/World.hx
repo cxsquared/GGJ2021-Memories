@@ -98,6 +98,23 @@ class World {
 		}
 	}
 
+	public function debugEntity(console:Console, name:String) {
+		for (entity in entities) {
+			if (entity.name != name)
+				continue;
+
+			var color = Std.int(Math.random() * 0xFFFFFF);
+			console.log('id: ${entity.id}', color);
+			console.log("components: ", color);
+			for (type in components.keys()) {
+				if (components[type].exists(entity.id)) {
+					console.log('type: $type', color);
+					components[type][entity.id].log(console, color);
+				}
+			}
+		}
+	}
+
 	function getEntitiesWithComponent(entitiesToFilter:Array<Entity>, componentType:String) {
 		var entitiesWithComponent = new Array<Entity>();
 		if (!components.exists(componentType))
