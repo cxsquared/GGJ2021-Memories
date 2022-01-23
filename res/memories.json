@@ -66,6 +66,40 @@
                 "_____ without it - unless you want to",
                 "come home looking like a _________ lobster."
             ]
+        },
+        {
+            "displaylines":[
+                "'The ______ is ______ and full of",
+                "______,' or so that's what my mom",
+                "told me when I left for ______ school.",
+                "On my first day, I met the school",
+                "______, which was way more ______",
+                "than I'd imagined. I nearly ______",
+                "so it ______ me toward the ______.",
+                "After that, I was ______ so I ______",
+                "to the cafeteria. I ordered my favorite",
+                "meal:  ______ ______ and ______, it was",
+                "______! While eating that first meal,",
+                "I was ______ by a(n) ______",
+                "${noun}. Across the table, two ______",
+                "eyes looked back at me.  And that's",
+                "where I ______ my future ______."
+            ],
+            "lines":[
+                "'The ${noun} is ${adjective} and full of ${pluralnoun},' or so that's what my mom told me when I left for ${ingverb} school.",
+				"On my first day, I met the school ${noun}, which was way more ${adjective} than I'd imagined. I nearly ${pasttenseverb} so it ${pasttenseverb} me toward the ${noun}.",
+				"After that, I was ${adjective} so I ${pasttenseverb} to the cafeteria.",
+				"I ordered my favorite meal:  ${adjective} ${pluralnoun} and ${noun}, it was ${adjective}!",
+				"While eating that first meal, I was ${pasttenseverb} by a(n) ${adjective} ${noun}.",
+				"Across the table, two ${adjective} eyes looked back at me.  And that's where I ${pasttenseverb} my future ${relationship}."
+			],
+            "nouns": ["rock", "Internet", "coffee", "bird", "mushroom", "fire"],
+            "pluralnoun": ["puppies", "muffins", "stones", "gargoyles", "potions", "flowers", "pillows", "hugs"],
+            "pasttenseverb": ["galvanized", "sauntered", "spoke", "ran", "cried", "laughed", "baked", "heated"],
+            "ingverbs": ["echolocating", "cooking", "siege engineering", "painting", "tingling" ],
+            "adjectives": ["famous", "listless", "bewildered", "disturbed", "expensive", "impossible", "naughty", "outrageous", "tasty", "red" ],
+			"relationships": ["mother", "lover", "nemesis", "son"]
+            
         }
     ]
 }
