@@ -42,10 +42,8 @@ class Game extends hxd.App {
 			scene.update(dt);
 
 		#if debug
-		
-			if (Key.isPressed(Key.R))
-				setGameScene(new Book(s2d));
-		
+		if (Key.isPressed(Key.R))
+			setGameScene(new Book(s2d));
 		#end
 	}
 }

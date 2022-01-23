@@ -3,6 +3,7 @@ package memories;
 class MemoryManager {
 	var currentMemeory = 0;
 	var usedMemories = new Array<Int>();
+
 	public var memories = new Array<Memory>();
 
 	public var pickedUpWords = new Array<Word>();
@@ -17,6 +18,10 @@ class MemoryManager {
 
 	public function finishCurrentMemory() {
 		usedMemories.push(currentMemeory);
+	}
+
+	public function setMemory(i:Int) {
+		currentMemeory = i;
 	}
 
 	public function setRandomMemory():Memory {

@@ -17,22 +17,33 @@ class DialogueController implements IPerEntitySystem {
 		var r:Ui = cast entity.get(Ui.type);
 		var text:Text = cast r.drawable;
 
-		if (Key.isPressed(Key.SPACE)) {
-			if (text.text == dialogueBox.visibleText) {
-				entity.remove();
-				Exploration.dialogueShowing = false;
-				return;
-			}
+		var thisLine = dialogueBox.text[dialogueBox.currentLine];
 
-			dialogueBox.visibleText = dialogueBox.text;
-			text.text = dialogueBox.visibleText;
-			return;
+		if (Key.isPressed(Key.SPACE)) {
+			if (text.text == thisLine) {
+				dialogueBox.currentLine++;
+				if (dialogueBox.currentLine >= dialogueBox.text.length) {
+					entity.remove();
+
+					Exploration.dialogueShowing = false;
+
+					return;
+				}
+
+				dialogueBox.visibleText = "";
+			} else {
+				dialogueBox.visibleText = thisLine;
+				text.text = dialogueBox.visibleText;
+			}
 		}
 
-		var rate = MathUtils.normalizeToOne(dialogueBox.visibleText.length, 0, dialogueBox.text.length);
-		rate += dt * dialogueBox.speed * dialogueBox.text.length;
-		var textLenght = Math.min(dialogueBox.text.length, Math.floor(rate * dialogueBox.text.length));
-		dialogueBox.visibleText = dialogueBox.text.substring(0, Math.floor(textLenght));
+		if (text.text == thisLine)
+			return;
+
+		var rate = MathUtils.normalizeToOne(dialogueBox.visibleText.length, 0, thisLine.length);
+		rate += dialogueBox.speed;
+		var textLenght = Math.min(thisLine.length, Math.floor(rate * thisLine.length));
+		dialogueBox.visibleText = thisLine.substring(0, Math.floor(textLenght));
 		text.text = dialogueBox.visibleText;
 	}
 }

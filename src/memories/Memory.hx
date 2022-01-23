@@ -7,7 +7,9 @@ class Memory {
 	var currentLine = 0;
 
 	var lines:Array<String> = new Array();
+
 	public var displayLines:Array<String> = new Array();
+
 	var requiredWordTypes:Array<WordType> = new Array();
 	var nouns:Array<Word> = new Array();
 	var pluralnoun:Array<Word> = new Array();
@@ -16,6 +18,8 @@ class Memory {
 	var ingverbs:Array<Word> = new Array();
 	var adjectives:Array<Word> = new Array();
 	var relationships:Array<Word> = new Array();
+
+	public var wordsToFind = 0;
 
 	public function new(jsonObject:Dynamic) {
 		lines = jsonObject.lines;
@@ -41,7 +45,7 @@ class Memory {
 			this.ingverbs = parseWordType(ingverbStrings, WordType.INGVERB);
 		}
 
-		var adjectiveStrings:Array<String> = jsonObject.adjective;
+		var adjectiveStrings:Array<String> = jsonObject.adjectives;
 		if (adjectiveStrings != null) {
 			this.adjectives = parseWordType(adjectiveStrings, WordType.ADJECTIVES);
 		}
@@ -57,15 +61,25 @@ class Memory {
 		}
 
 		requiredWordTypes = getNeededWordTypes(lines[currentLine]);
+		wordsToFind = requiredWordTypes.length;
 	}
 
 	public function getWord() {
+		if (wordsToFind <= 0)
+			return null;
+
+		wordsToFind--;
+
 		if (requiredWordTypes.length > 0) {
 			var nextType = requiredWordTypes.shift();
 			return getWordByType(nextType);
 		}
 
 		return getRandomWordForLine(lines[currentLine]);
+	}
+
+	public function lineNeedsWords() {
+		return getNeededWordTypes(lines[currentLine]).length > 0;
 	}
 
 	function getRandomWordForLine(line:String):Word {
@@ -119,15 +133,18 @@ class Memory {
 	}
 
 	public function hasNextLine():Bool {
-		return currentLine < lines.length;
+		return currentLine + 1 < lines.length;
 	}
 
-	public function advanceLine() {
+	public function advanceLine():Bool {
 		if (!hasNextLine())
-			return;
+			return false;
 
 		currentLine++;
 		requiredWordTypes = getNeededWordTypes(lines[currentLine]);
+		wordsToFind = requiredWordTypes.length;
+
+		return true;
 	}
 
 	public function getCurrentLine():String {
@@ -135,6 +152,23 @@ class Memory {
 			return "";
 
 		return lines[currentLine];
+	}
+
+	public function getCurrentLineWithBlanks():String {
+		if (currentLine >= lines.length)
+			return "";
+
+		var line = lines[currentLine];
+
+		line = StringTools.replace(line, "${noun}", "___");
+		line = StringTools.replace(line, "${adjective}", "__");
+		line = StringTools.replace(line, "${verb}", "____");
+		line = StringTools.replace(line, "${inverb}", "_____");
+		line = StringTools.replace(line, "${pluralnoun}", "___");
+		line = StringTools.replace(line, "${pasttenseverb}", "___");
+		line = StringTools.replace(line, "${relationship}", "___");
+
+		return line;
 	}
 
 	public function validFinish(fillIns:Array<Word>):Bool {
