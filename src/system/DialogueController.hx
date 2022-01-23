@@ -1,5 +1,6 @@
 package system;
 
+import scenes.Exploration;
 import component.Ui;
 import hxd.Math;
 import hxd.Key;
@@ -16,11 +17,10 @@ class DialogueController implements IPerEntitySystem {
 		var r:Ui = cast entity.get(Ui.type);
 		var text:Text = cast r.drawable;
 
-		// text.color.setColor(dialogueBox.textColor);
-
 		if (Key.isPressed(Key.SPACE)) {
 			if (text.text == dialogueBox.visibleText) {
 				entity.remove();
+				Exploration.dialogueShowing = false;
 				return;
 			}
 
@@ -30,7 +30,7 @@ class DialogueController implements IPerEntitySystem {
 		}
 
 		var rate = MathUtils.normalizeToOne(dialogueBox.visibleText.length, 0, dialogueBox.text.length);
-		rate += dt * dialogueBox.speed;
+		rate += dt * dialogueBox.speed * dialogueBox.text.length;
 		var textLenght = Math.min(dialogueBox.text.length, Math.floor(rate * dialogueBox.text.length));
 		dialogueBox.visibleText = dialogueBox.text.substring(0, Math.floor(textLenght));
 		text.text = dialogueBox.visibleText;

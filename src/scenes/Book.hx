@@ -2,12 +2,8 @@ package scenes;
 
 import system.UiRenderer;
 import component.Ui;
-import h3d.shader.PointShadow;
-import format.tgz.Data;
-import component.Madlib;
 import h2d.col.Point;
 import h2d.Console;
-import h2d.col.Collider;
 import h2d.Scene;
 import hxd.res.DefaultFont;
 import h2d.Text;
@@ -15,21 +11,13 @@ import hxd.Math;
 import hxd.Window;
 import component.Word;
 import component.Madlib;
-import component.Renderable;
-import component.Transform;
 import component.Bounce;
 import component.Drag;
-import component.Collidable;
-import system.Collision;
 import system.Bouncer;
 import system.WordController;
-import component.Camera;
-import system.Renderer;
 import system.DragController;
 import component.Transform;
 import component.Velocity;
-import system.CollisionDebug;
-import h2d.col.Bounds;
 
 class Book extends GameScene {
 	var console:Console;

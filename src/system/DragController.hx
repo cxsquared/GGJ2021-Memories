@@ -1,14 +1,7 @@
 package system;
 
-import haxe.display.Display.Package;
-import hxd.Key;
-import h2d.Console;
-import component.Camera;
-import component.Player;
-import component.Collidable;
 import component.Transform;
 import component.Drag;
-import component.Word;
 import h2d.Scene;
 
 using tweenxcore.Tools;

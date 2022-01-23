@@ -8,7 +8,7 @@ class DialogueBox implements IComponent {
 	public var text:String;
 	public var textColor:Int;
 	public var visibleText:String;
-	public var speed:Float = 1;
+	public var speed:Float = .05;
 	public var background:Entity;
 
 	public function new(text:String, textColor:Int, background:Entity) {

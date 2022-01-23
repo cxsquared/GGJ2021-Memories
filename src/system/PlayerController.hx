@@ -1,5 +1,6 @@
 package system;
 
+import scenes.Exploration;
 import hxd.Math;
 import component.Velocity;
 import component.Transform;
@@ -12,6 +13,9 @@ class PlayerController implements IPerEntitySystem {
 	public function new() {}
 
 	public function update(entity:Entity, dt:Float) {
+		if (Exploration.dialogueShowing)
+			return;
+
 		var up = Key.isDown(Key.UP) || Key.isDown(Key.W);
 		var left = Key.isDown(Key.LEFT) || Key.isDown(Key.A);
 		var right = Key.isDown(Key.RIGHT) || Key.isDown(Key.D);
