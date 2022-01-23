@@ -4,7 +4,7 @@ import system.IAllEntitySystem.IAllEntitySystems;
 import component.Collidable;
 import component.Transform;
 
-class Collision implements IAllEntitySystems  {
+class Collision implements IAllEntitySystems {
 	public var forComponents:Array<String> = [Collidable.type, Transform.type];
 
 	public function new() {}
@@ -16,10 +16,11 @@ class Collision implements IAllEntitySystems  {
 			var et:Transform = cast e.get(Transform.type);
 			switch (ec.shape) {
 				case CIRCLE:
-					ec.circle.x = et.x + et.width / 2;
-					ec.circle.y = et.y + et.height / 2;
+					ec.circle.x = et.x + et.width / 2 + ec.offsetX;
+					ec.circle.y = et.y + et.height / 2 + ec.offsetY;
 				case BOUNDS:
-					ec.bounds.set(et.x, et.y, et.width, et.height);
+					ec.bounds.x = et.x + ec.offsetX;
+					ec.bounds.y = et.y + ec.offsetY;
 			}
 			ec.colliding = false;
 			ec.event = null;
@@ -31,6 +32,17 @@ class Collision implements IAllEntitySystems  {
 
 			for (b in entities) {
 				if (a.id == b.id)
+					continue;
+
+				var ignore = false;
+				for (type in ac.ignore) {
+					ignore = b.has(type);
+
+					if (ignore)
+						break;
+				}
+
+				if (ignore)
 					continue;
 
 				var bc:Collidable = cast b.get(Collidable.type);

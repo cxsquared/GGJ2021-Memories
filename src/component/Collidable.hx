@@ -16,6 +16,10 @@ class Collidable implements IComponent {
 	public var circle:Circle;
 	public var bounds:Bounds;
 	public var shape:CollisionShape;
+	public var offsetX:Float = 0;
+	public var offsetY:Float = 0;
+
+	public var ignore = new Array<String>();
 
 	public function getCollider():Collider {
 		switch (shape) {

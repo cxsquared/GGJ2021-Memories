@@ -40,7 +40,7 @@ class CameraController implements IPerEntitySystem {
 
 		// Follow target entity
 		var cameraPoint = new Point(t.x, t.y);
-		var targetPoint = new Point(targetTransform.x, targetTransform.y);
+		var targetPoint = new Point(targetTransform.x + targetTransform.width / 2, targetTransform.y + targetTransform.height / 2);
 
 		var d = cameraPoint.distance(targetPoint);
 		if (d >= camera.deadzone) {

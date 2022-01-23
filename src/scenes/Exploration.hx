@@ -1,5 +1,6 @@
 package scenes;
 
+import format.swf.Data.SWFHeader;
 import component.BookStand;
 import system.Shaker;
 import component.Shake;
@@ -52,45 +53,73 @@ class Exploration extends GameScene {
 	override function init() {
 		s2d = getScene();
 
+		var wide = 2;
+		var tall = 2;
 		var bgTile = Res.bg.toTile();
-		world.newEntity("bg").add(new Transform()).add(new Renderable(new Bitmap(bgTile, this)));
+		var worldWidth = wide * bgTile.width;
+		var worldHeight = tall * bgTile.height;
+		for (x in 0...wide) {
+			for (y in 0...tall) {
+				world.newEntity("bg")
+					.add(new Transform(x * bgTile.width, y * bgTile.height, bgTile.width, bgTile.height))
+					.add(new Renderable(new Bitmap(bgTile, this)));
+			}
+		}
 
-		var player = world.newEntity("player")
-			.add(new Player())
-			.add(new Collidable(CollisionShape.CIRCLE, 15))
-			.add(new Renderable(new Bitmap(Tile.fromColor(0xFF00FF, 32, 32), this)))
-			.add(new Transform(bgTile.width / 2, bgTile.height / 2, 32, 32))
-			.add(new Velocity());
-
-		var camera = world.newEntity("camera")
-			.add(new Camera(player, Bounds.fromValues(0, 0, bgTile.width, bgTile.height), s2d.width / 2, s2d.height / 2))
-			.add(new Transform())
-			.add(new Velocity());
-
-		var bookSpawn = new Point(Math.random(bgTile.width / 5) + bgTile.width / 2, Math.random(bgTile.height / 5) + bgTile.height / 2);
+		var bookSpawn = new Point(Math.srand(50) + worldWidth / 2, Math.srand(50) + worldHeight / 2);
 		var bookStand = new Bitmap(hxd.Res.tempbook.toTile(), this);
-		bookStand.setScale(.25);
+		bookStand.setScale(.15);
 		world.newEntity("book stand")
 			.add(new BookStand())
 			.add(new Renderable(bookStand))
 			.add(new Transform(bookSpawn.x, bookSpawn.y));
 
-		var tree = hxd.Res.temptree.toTile();
-		for (i in 0...25) {
-			var width = Math.random(32) + 16;
-			var spawn = new Point(Math.random(bgTile.width), Math.random(bgTile.height));
-			while (spawn.distance(bookSpawn) < 50) {
-				spawn = new Point(Math.random(bgTile.width), Math.random(bgTile.height));
-			}
+		var tree01 = hxd.Res.tree01.toTile();
+		var tree02 = hxd.Res.tree02.toTile();
+		var tree03 = hxd.Res.tree03.toTile();
+		var tree04 = hxd.Res.tree04.toTile();
+		var trees = [tree01, tree02, tree03, tree04];
+		var numOfTrees = 15;
+		var spawns = getTreeSpawns(numOfTrees, worldWidth, worldHeight, bookSpawn);
+		for (i in 0...numOfTrees) {
+			Math.shuffle(trees);
+			var spawn = spawns.pop();
 
-			tree.scaleToSize(width, width * 2);
+			if (spawn == null)
+				continue;
+
+			var bitmap = new Bitmap(trees[0], this);
+			bitmap.colorKey = 0xff00ff;
+			bitmap.setScale(Math.random(.25) + .25);
+			var size = bitmap.getSize();
+			var collidable = new Collidable(CollisionShape.BOUNDS, 0, size.width / 2, size.height / 2);
+			collidable.offsetY = size.height / 2;
+			collidable.offsetX = size.width / 4;
+			collidable.ignore.push(Tree.type);
 			world.newEntity('tree $i')
 				.add(new Tree())
 				.add(new Shake())
-				.add(new Transform(spawn.x, spawn.y, 16, 64))
-				.add(new Collidable(CollisionShape.CIRCLE, 30))
-				.add(new Renderable(new Bitmap(tree, this)));
+				.add(new Transform(spawn.x, spawn.y, size.width, size.height))
+				.add(collidable)
+				.add(new Renderable(bitmap));
 		}
+
+		var playerTile = Res.player.toTile();
+		var playerBitmap = new Bitmap(playerTile, this);
+		playerBitmap.colorKey = 0xFF00FF;
+		playerBitmap.setScale(.175);
+		var playerSize = playerBitmap.getSize();
+		var player = world.newEntity("player")
+			.add(new Player())
+			.add(new Collidable(CollisionShape.BOUNDS, 0, playerSize.width, playerSize.height))
+			.add(new Renderable(playerBitmap))
+			.add(new Transform(worldWidth / 2, worldHeight / 2, playerSize.width, playerSize.height))
+			.add(new Velocity());
+
+		var camera = world.newEntity("camera")
+			.add(new Camera(player, Bounds.fromValues(0, 0, worldWidth, worldHeight), s2d.width / 2, s2d.height / 2))
+			.add(new Transform())
+			.add(new Velocity());
 
 		world.addSystem(new PlayerController());
 		world.addSystem(new Collision());
@@ -131,6 +160,39 @@ class Exploration extends GameScene {
 		world.update(dt);
 	}
 
+	function getTreeSpawns(n:Int, worldWidth:Float, worldHeight:Float, bookSpawn:Point):Array<Point> {
+		var spawns = [];
+		var failSafe = 5;
+		var currentTry = 0;
+		for (i in 0...n) {
+			var spawn = new Point(Math.random(worldWidth), Math.random(worldHeight));
+			while (currentTry < failSafe && (spawn.distance(bookSpawn) < 300 || isInDistanceOf(spawn, spawns, 750))) {
+				spawn = new Point(Math.random(worldWidth), Math.random(worldWidth));
+				currentTry++;
+			}
+
+			if (currentTry < failSafe) {
+				spawns.push(spawn);
+			}
+
+			currentTry = 0;
+		}
+
+		return spawns;
+	}
+
+	function isInDistanceOf(a:Point, b:Array<Point>, d:Float) {
+		var overlaps = false;
+		for (point in b) {
+			overlaps = a.distance(point) < d;
+
+			if (overlaps)
+				return true;
+		}
+
+		return false;
+	}
+
 	function spawnWord(x:Float, y:Float) {
 		var word = Game.memories.getCurrentMemory().getWord();
 
@@ -159,11 +221,12 @@ class Exploration extends GameScene {
 		bg.width = s2d.width;
 		bg.height = s2d.height / 4;
 		bg.colorKey = 0xFF00FF;
-		bg.color.a = 0.5;
+		bg.color.setColor(0x000000);
+		bg.color.a = 0.75;
 		var tf = new h2d.Text(DefaultFont.get(), parent);
-		tf.setScale(2);
+		tf.setScale(1.5);
 		tf.maxWidth = s2d.width - s2d.width / 5;
-		tf.y = s2d.height - bg.height / 2 - tf.textHeight;
+		tf.y = s2d.height - bg.height / 2 - (tf.textHeight * tf.scaleY);
 		tf.x = s2d.width / 2 - tf.maxWidth / 2;
 		tf.dropShadow = {
 			dx: 0,

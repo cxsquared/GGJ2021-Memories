@@ -6,8 +6,8 @@ class Shake implements IComponent {
 	public static final type = "Shake";
 
 	public var length:Float = 2;
-	public var distance:Float = .125;
-	public var speed:Float = 12;
+	public var distance:Float = .5;
+	public var speed:Float = 18;
 	public var currentTime:Float = 0;
 
 	public function new() {
