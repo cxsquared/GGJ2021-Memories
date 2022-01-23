@@ -10,6 +10,7 @@ import scenes.Book;
 class Game extends hxd.App {
 	var scene:GameScene;
 
+	public static var game:Game;
 	public static var memories:MemoryManager;
 	public static var game:Game;
 

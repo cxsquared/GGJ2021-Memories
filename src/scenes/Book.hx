@@ -1,5 +1,8 @@
 package scenes;
 
+import h2d.Layers;
+import component.Button;
+import system.ButtonController;
 import system.UiRenderer;
 import component.Ui;
 import h2d.col.Point;
@@ -13,6 +16,7 @@ import component.Bounce;
 import component.Drag;
 import system.Bouncer;
 import system.WordController;
+import system.ButtonController;
 import system.DragController;
 import component.Transform;
 import h2d.Scene;
@@ -45,13 +49,38 @@ class Book extends GameScene {
 		world.addSystem(new Bouncer());
 		world.addSystem(new WordController());
 		world.addSystem(new UiRenderer());
+		world.addSystem(new ButtonController(s2d));
 		
 		var memoryWidth = spawnMemory();
 		spawnWords(memoryWidth);
+		spawnFinishMemory(s2d);
 	}
 
 	override function update(dt:Float) {
 		world.update(dt);
+	}
+
+	function spawnFinishMemory(scene:Scene){
+		var text = new Text(DefaultFont.get());
+			text.text = "Finish Memory";
+			text.setScale(1.5);
+			text.textColor = 0x000000;
+		var target = new Point(0, 0);
+		
+		var word = new memories.Word(text.text, null);
+		var bgTile = Res.button.toTile();
+		var bitmap = new Bitmap(bgTile, this);
+		bitmap.width = text.calcTextWidth(word.text) * text.scaleX;
+		bitmap.height = text.textHeight * text.scaleY;
+		this.addChild(text);
+		var layer = new Layers();
+		layer.under(bitmap);
+		world.newEntity()
+			.add(new Ui(bitmap))
+			.add(new Word(word, target, target))
+			.add(new Transform(0, 0, text.calcTextWidth(word.text) * text.scaleX, text.textHeight * text.scaleY))
+			.add(new Button(this, text.calcTextWidth(word.text) * text.scaleX, text.textHeight * text.scaleY))
+			.add(new Bounce());
 	}
 
 	function spawnMemory() : Float{
