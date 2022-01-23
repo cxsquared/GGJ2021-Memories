@@ -1,6 +1,9 @@
 package scenes;
 
-import h2d.Bitmap;
+import component.BookStand;
+import system.Shaker;
+import component.Shake;
+import h3d.shader.ColorKey;
 import system.DialogueController;
 import system.UiRenderer;
 import component.DialogueBox;
@@ -38,13 +41,16 @@ import hxd.Res;
 class Exploration extends GameScene {
 	var world = new World();
 	var console:Console;
+	var s2d:Scene;
+
+	public static var dialogueShowing = false;
 
 	public function new(scene:Scene) {
 		super(scene);
 	}
 
 	override function init() {
-		var s2d = getScene();
+		s2d = getScene();
 
 		var bgTile = Res.tempbackground.toTile();
 		world.newEntity("bg").add(new Transform()).add(new Renderable(new Bitmap(bgTile, this)));
@@ -53,7 +59,7 @@ class Exploration extends GameScene {
 			.add(new Player())
 			.add(new Collidable(CollisionShape.CIRCLE, 15))
 			.add(new Renderable(new Bitmap(Tile.fromColor(0xFF00FF, 32, 32), this)))
-			.add(new Transform(0, 0, 32, 32))
+			.add(new Transform(bgTile.width / 2, bgTile.height / 2, 32, 32))
 			.add(new Velocity());
 
 		var camera = world.newEntity("camera")
@@ -61,13 +67,27 @@ class Exploration extends GameScene {
 			.add(new Transform())
 			.add(new Velocity());
 
+		var bookSpawn = new Point(Math.random(bgTile.width / 5) + bgTile.width / 2, Math.random(bgTile.height / 5) + bgTile.height / 2);
+		var bookStand = new Bitmap(hxd.Res.tempbook.toTile(), this);
+		bookStand.setScale(.25);
+		world.newEntity("book stand")
+			.add(new BookStand())
+			.add(new Renderable(bookStand))
+			.add(new Transform(bookSpawn.x, bookSpawn.y));
+
 		var tree = hxd.Res.temptree.toTile();
 		for (i in 0...25) {
 			var width = Math.random(32) + 16;
+			var spawn = new Point(Math.random(bgTile.width), Math.random(bgTile.height));
+			while (spawn.distance(bookSpawn) < 50) {
+				spawn = new Point(Math.random(bgTile.width), Math.random(bgTile.height));
+			}
+
 			tree.scaleToSize(width, width * 2);
 			world.newEntity('tree $i')
 				.add(new Tree())
-				.add(new Transform(Math.random(bgTile.width), Math.random(bgTile.height), 16, 64))
+				.add(new Shake())
+				.add(new Transform(spawn.x, spawn.y, 16, 64))
 				.add(new Collidable(CollisionShape.CIRCLE, 30))
 				.add(new Renderable(new Bitmap(tree, this)));
 		}
@@ -75,6 +95,7 @@ class Exploration extends GameScene {
 		world.addSystem(new PlayerController());
 		world.addSystem(new Collision());
 		world.addSystem(new Bouncer());
+		world.addSystem(new Shaker());
 		world.addSystem(new TreeController(spawnWord));
 		world.addSystem(new WordController());
 		world.addSystem(new DialogueController());
@@ -105,10 +126,11 @@ class Exploration extends GameScene {
 		world.update(dt);
 	}
 
-	function spawnWord(x:Float, y:Float, word:String) {
+	function spawnWord(x:Float, y:Float) {
 		var word = Game.memories.getCurrentMemory().getWord();
 
 		if (word == null) {
+			makeDialogue(world, "I don't think I'm gonna get anymore words from this...", s2d, this);
 			return;
 		}
 
@@ -149,5 +171,6 @@ class Exploration extends GameScene {
 			.add(new Ui(tf)) // .add(new Renderable(new Bitmap(Tile.fromColor(0xff0000, Std.int(tf.maxWidth), Std.int(tf.textHeight), .5), parent)))
 			.add(new DialogueBox(text, 0xffffff, bg))
 			.add(new Transform(tf.x, tf.y, tf.maxWidth, tf.textHeight));
+		dialogueShowing = true;
 	}
 }

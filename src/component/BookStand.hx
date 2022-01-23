@@ -2,7 +2,7 @@ package component;
 
 import h2d.Console;
 
-class Book implements IComponent {
+class BookStand implements IComponent {
 	public static final type = "Book";
 
 	public function new() {}
