@@ -6,7 +6,7 @@ import memories.Word.WordType;
 class Memory {
 	var currentLine = 0;
 
-	var lines:Array<String> = new Array();
+	public var lines:Array<String> = new Array();
 	var requiredWordTypes:Array<WordType> = new Array();
 	var nouns:Array<Word> = new Array();
 	var pluralnoun:Array<Word> = new Array();

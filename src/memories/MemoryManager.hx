@@ -3,7 +3,7 @@ package memories;
 class MemoryManager {
 	var currentMemeory = 0;
 	var usedMemories = new Array<Int>();
-	var memories = new Array<Memory>();
+	public var memories = new Array<Memory>();
 
 	public var pickedUpWords = new Array<Word>();
 

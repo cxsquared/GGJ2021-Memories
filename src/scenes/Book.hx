@@ -61,6 +61,31 @@ class Book extends GameScene {
 		world.update(dt);
 	}
 
+	function spawnMemory(){
+		var memories = Game.memories.memories;
+		var window = Window.getInstance();
+		var width = window.width;
+		var height = window.height;
+		for (memory in memories)
+		{
+			for (line in memory.lines) {
+				var x = 1000;
+				var y = 1000;
+				var start = new Point(x, y);
+				var target = new Point(Math.srand(width / 2) + (width / 2), Math.srand(height / 2) + (height / 2));
+				var text = new Text(DefaultFont.get(), this);
+				text.text = line;
+				text.setScale(2);
+				text.textColor = Std.int(Math.random() * 0xffffff);
+				world.newEntity()
+					.add(new Word(new memories.Word(line, null), start, target))
+					.add(new Ui(text))
+					.add(new Transform(x, y, text.calcTextWidth(line) * text.scaleX, text.textHeight * text.scaleY))
+					.add(new Bounce());
+			}
+		}
+	}
+
 	function spawnWords() {
 		var words = Game.memories.pickedUpWords;
 
@@ -68,7 +93,6 @@ class Book extends GameScene {
 			return;
 		}
 
-		console.log("Logging words!");
 		var window = Window.getInstance();
 		var width = window.width;
 		var height = window.height;
