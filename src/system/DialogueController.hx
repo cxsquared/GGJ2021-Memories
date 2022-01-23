@@ -16,7 +16,7 @@ class DialogueController implements IPerEntitySystem {
 		var r:Ui = cast entity.get(Ui.type);
 		var text:Text = cast r.drawable;
 
-		text.color.setColor(dialogueBox.textColor);
+		// text.color.setColor(dialogueBox.textColor);
 
 		if (Key.isPressed(Key.SPACE)) {
 			if (text.text == dialogueBox.visibleText) {

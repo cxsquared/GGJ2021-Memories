@@ -133,10 +133,10 @@ class Exploration extends GameScene {
 		bg.colorKey = 0xFF00FF;
 		bg.color.a = 0.5;
 		var tf = new h2d.Text(DefaultFont.get(), parent);
-		tf.setScale(3);
-		tf.y = s2d.height - tf.textHeight / 2;
-		tf.x = s2d.width / 2 - tf.calcTextWidth(text) / 2;
+		tf.setScale(2);
 		tf.maxWidth = s2d.width - s2d.width / 5;
+		tf.y = s2d.height - bg.height / 2 - tf.textHeight;
+		tf.x = s2d.width / 2 - tf.maxWidth / 2;
 		tf.dropShadow = {
 			dx: 0,
 			dy: 1,
@@ -145,7 +145,7 @@ class Exploration extends GameScene {
 		};
 		var bg = world.newEntity("dialogue background").add(new Transform(0, s2d.height - s2d.height / 4, s2d.width, s2d.height / 4)).add(new Ui(bg));
 		world.newEntity("dialogue")
-			.add(new Ui(tf))
+			.add(new Ui(tf)) // .add(new Renderable(new Bitmap(Tile.fromColor(0xff0000, Std.int(tf.maxWidth), Std.int(tf.textHeight), .5), parent)))
 			.add(new DialogueBox(text, 0xffffff, bg))
 			.add(new Transform(tf.x, tf.y, tf.maxWidth, tf.textHeight));
 	}
