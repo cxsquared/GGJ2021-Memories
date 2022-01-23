@@ -39,11 +39,11 @@ class Game extends hxd.App {
 		if (scene != null)
 			scene.update(dt);
 
-		#if debug
+		/*#if debug
 		
 			if (Key.isPressed(Key.R))
 				setGameScene(new Book(s2d));
 		
-		#end
+		#end*/
 	}
 }
