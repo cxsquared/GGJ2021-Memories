@@ -21,7 +21,7 @@ class MemoryManager {
 
 	public function setRandomMemory():Memory {
 		if (memories.length == usedMemories.length) {
-			throw "No more memories available";
+			usedMemories = new Array<Int>();
 		}
 
 		var newMemoryIndex = Math.floor(Math.random() * memories.length);
