@@ -46,20 +46,19 @@ class Book extends GameScene {
 		world.addSystem(new WordController());
 		world.addSystem(new UiRenderer());
 		
-		var meoryHeight = spawnMemory();
-		spawnWords(meoryHeight);
+		spawnMemory();
+		spawnWords();
 	}
 
 	override function update(dt:Float) {
 		world.update(dt);
 	}
 
-	function spawnMemory() : Float{
+	function spawnMemory(){
 		var memory = Game.memories.getCurrentMemory();
 		var lineNumber = 0;
 		var xCoordinate = 45;
 		var yCoordinate = 0.0;
-		var color = Std.int(Math.random() * 0x000000);
 		for (line in memory.displayLines) {
 			var text = new Text(DefaultFont.get(), this);
 			var textHeight = text.textHeight * text.scaleY * 2;
@@ -75,10 +74,9 @@ class Book extends GameScene {
 				.add(new Bounce());
 			lineNumber++;
 		}
-		return yCoordinate;
 	}
 
-	function spawnWords(memoryHeight:Float) {
+	function spawnWords() {
 		var words = Game.memories.pickedUpWords;
 
 		if (words == null) {
@@ -94,8 +92,8 @@ class Book extends GameScene {
 			text.setScale(2);
 			text.textColor = Std.int(Math.random() * 0xffffff);
 			var start = new Point(x, y);
-			var validHeight = height - memoryHeight;
-			var target = new Point(Math.srand(width / 2) + (width / 2), memoryHeight + Math.srand(validHeight / 2));
+			var validWidth = width - (width / 2);
+			var target = new Point(Math.srand(validWidth) + validWidth, (height / 2) + Math.srand(height / 2));
 			world.newEntity()
 				.add(new Word(word, start, target))
 				.add(new Ui(text))
