@@ -13,7 +13,19 @@
             "pluralnoun": ["puppies", "kittens"],
             "verbs": ["galvanize"],
             "ingverbs": ["echolocating"],
-            "adjectives": ["sparkling", "listless", "Irish", "bountiful"]
+            "adjectives": ["sparkling", "listless", "Irish", "bountiful"],
+            "displaylines": [
+                "Spring break is over, but you'll always have the memories...",
+                "It's good to kick back and have _____ once in a while. After all,",
+                "you only ______ once! Always being the life of the _____",
+                "can be ________ work - but if you have some _____ laughs,",
+                "it's worth it! Sometimes you must embrace the wild ______ lurking",
+                "inside of you, lest it escape only to scare the _______",
+                "off your unsuspecting friends. Too much of a good thing",
+                "can be ________ - like ________ too long in the hot sun.",
+                "_______-screen is a _______'s best friend. Never leave _____ without",
+                "it - unless you want to come home looking like a _________ lobster."
+            ]
         },
         {
             "lines":[
@@ -29,7 +41,19 @@
             "pasttenseverb": ["galvanized", "sauntered", "spoke", "ran", "cried", "laughed", "baked", "heated"],
             "ingverbs": ["echolocating", "cooking", "siege engineering", "painting", "tingling" ],
             "adjectives": ["famous", "listless", "bewildered", "disturbed", "expensive", "impossible", "naughty", "outrageous", "tasty", "red" ],
-			"relationships": ["mother", "lover", "nemesis", "son"]
+			"relationships": ["mother", "lover", "nemesis", "son"],
+            "displaylines": [
+                "Spring break is over, but you'll always have the memories...",
+                "It's good to kick back and have _____ once in a while. After all,",
+                "you only ______ once! Always being the life of the _____",
+                "can be ________ work - but if you have some _____ laughs,",
+                "it's worth it! Sometimes you must embrace the wild ______ lurking",
+                "inside of you, lest it escape only to scare the _______",
+                "off your unsuspecting friends. Too much of a good thing",
+                "can be ________ - like ________ too long in the hot sun.",
+                "_______-screen is a _______'s best friend. Never leave _____ without",
+                "it - unless you want to come home looking like a _________ lobster."
+            ]
         }
     ]
 }

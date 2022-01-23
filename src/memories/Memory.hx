@@ -6,7 +6,8 @@ import memories.Word.WordType;
 class Memory {
 	var currentLine = 0;
 
-	public var lines:Array<String> = new Array();
+	var lines:Array<String> = new Array();
+	public var displayLines:Array<String> = new Array();
 	var requiredWordTypes:Array<WordType> = new Array();
 	var nouns:Array<Word> = new Array();
 	var pluralnoun:Array<Word> = new Array();
@@ -18,6 +19,7 @@ class Memory {
 
 	public function new(jsonObject:Dynamic) {
 		lines = jsonObject.lines;
+		displayLines = jsonObject.displaylines;
 
 		var nounStrings:Array<String> = jsonObject.nouns;
 		if (nounStrings != null) {

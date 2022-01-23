@@ -10,7 +10,6 @@ import h2d.Text;
 import hxd.Math;
 import hxd.Window;
 import component.Word;
-import component.Madlib;
 import component.Bounce;
 import component.Drag;
 import system.Bouncer;
@@ -33,48 +32,44 @@ class Book extends GameScene {
 		console.addCommand("debug", "", [], function() {
 			world.debugLog(console);
 		});
-		var madlib = world.newEntity("madlib")
-			.add(new Madlib())
-			.add(new Transform(0, 0, 32, 32))
-			.add(new Velocity());
 
 		world.addSystem(new DragController(s2d));
 		world.addSystem(new Bouncer());
 		world.addSystem(new WordController());
 		world.addSystem(new UiRenderer());
-		spawnWords();
+		
+		var meoryHeight = spawnMemory();
+		spawnWords(meoryHeight);
 	}
 
 	override function update(dt:Float) {
 		world.update(dt);
 	}
 
-	function spawnMemory(){
-		var memories = Game.memories.memories;
-		var window = Window.getInstance();
-		var width = window.width;
-		var height = window.height;
-		for (memory in memories)
-		{
-			for (line in memory.lines) {
-				var x = 1000;
-				var y = 1000;
-				var start = new Point(x, y);
-				var target = new Point(Math.srand(width / 2) + (width / 2), Math.srand(height / 2) + (height / 2));
-				var text = new Text(DefaultFont.get(), this);
-				text.text = line;
-				text.setScale(2);
-				text.textColor = Std.int(Math.random() * 0xffffff);
-				world.newEntity()
-					.add(new Word(new memories.Word(line, null), start, target))
-					.add(new Ui(text))
-					.add(new Transform(x, y, text.calcTextWidth(line) * text.scaleX, text.textHeight * text.scaleY))
-					.add(new Bounce());
-			}
+	function spawnMemory() : Float{
+		var memory = Game.memories.getCurrentMemory();
+		var lineNumber = 0;
+		var yCoordinate = 0.0;
+		var color = Std.int(Math.random() * 0xffffff);
+		for (line in memory.displayLines) {
+			var text = new Text(DefaultFont.get(), this);
+			var textHeight = text.textHeight * text.scaleY * 2;
+			yCoordinate = lineNumber * textHeight;
+			var target = new Point(0, yCoordinate);
+			text.text = line;
+			text.setScale(2);
+			text.textColor = color;
+			world.newEntity()
+				.add(new Word(new memories.Word(line, null), new Point(0,0), target))
+				.add(new Ui(text))
+				.add(new Transform(x, y, text.calcTextWidth(line) * text.scaleX, text.textHeight * text.scaleY))
+				.add(new Bounce());
+			lineNumber++;
 		}
+		return yCoordinate;
 	}
 
-	function spawnWords() {
+	function spawnWords(memoryHeight:Float) {
 		var words = Game.memories.pickedUpWords;
 
 		if (words == null) {
@@ -85,15 +80,13 @@ class Book extends GameScene {
 		var width = window.width;
 		var height = window.height;
 		for (word in words) {
-			console.log(word.text);
 			var text = new Text(DefaultFont.get(), this);
 			text.text = word.text;
 			text.setScale(2);
 			text.textColor = Std.int(Math.random() * 0xffffff);
-			var x = 1000;
-			var y = 1000;
 			var start = new Point(x, y);
-			var target = new Point(Math.srand(width / 2) + (width / 2), Math.srand(height / 2) + (height / 2));
+			var validHeight = height - memoryHeight;
+			var target = new Point(Math.srand(width / 2) + (width / 2), memoryHeight + Math.srand(validHeight / 2));
 			world.newEntity()
 				.add(new Word(word, start, target))
 				.add(new Ui(text))
