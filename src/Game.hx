@@ -5,7 +5,7 @@ import haxe.Json;
 import scenes.GameScene;
 import scenes.*;
 import hxd.Key;
-import scenes.Book;
+import scenes.SplashScreen;
 
 class Game extends hxd.App {
 	var scene:GameScene;
@@ -24,7 +24,7 @@ class Game extends hxd.App {
 		var memoryFile = Json.parse(memoryText);
 		memories = new MemoryManager(MemoryDeserializer.deserializeMemoryJson(memoryFile));
 
-		setGameScene(new Exploration(s2d));
+		setGameScene(new SplashScreen(s2d));
 	}
 
 	public function setGameScene(gs:GameScene) {
