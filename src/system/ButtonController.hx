@@ -23,6 +23,7 @@ class ButtonController implements IPerEntitySystem {
 		if (b.isClicked) {
 			Game.memories.finishCurrentMemory();
 			Game.memories.setRandomMemory();
+			Game.memories.pickedUpWords = new Array<memories.Word>();
 			Game.game.setGameScene(new Exploration(scene));
 		}
 	}
