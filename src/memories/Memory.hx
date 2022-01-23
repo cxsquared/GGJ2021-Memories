@@ -45,7 +45,7 @@ class Memory {
 			this.ingverbs = parseWordType(ingverbStrings, WordType.INGVERB);
 		}
 
-		var adjectiveStrings:Array<String> = jsonObject.adjective;
+		var adjectiveStrings:Array<String> = jsonObject.adjectives;
 		if (adjectiveStrings != null) {
 			this.adjectives = parseWordType(adjectiveStrings, WordType.ADJECTIVES);
 		}
@@ -136,13 +136,15 @@ class Memory {
 		return currentLine < lines.length;
 	}
 
-	public function advanceLine() {
+	public function advanceLine():Bool {
 		if (!hasNextLine())
-			return;
+			return false;
 
 		currentLine++;
 		requiredWordTypes = getNeededWordTypes(lines[currentLine]);
 		wordsToFind = requiredWordTypes.length;
+
+		return true;
 	}
 
 	public function getCurrentLine():String {

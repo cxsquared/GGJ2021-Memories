@@ -240,11 +240,12 @@ class Exploration extends GameScene {
 		bg.colorKey = 0xFF00FF;
 		bg.color.setColor(0x000000);
 		bg.color.a = 0.75;
+		var bgSize = bg.getSize();
 		var tf = new h2d.Text(DefaultFont.get(), parent);
 		tf.setScale(1.5);
-		tf.maxWidth = s2d.width - s2d.width / 5;
-		tf.y = s2d.height - bg.height / 2 - (tf.textHeight * tf.scaleY);
-		tf.x = s2d.width / 2 - tf.maxWidth / 2;
+		tf.maxWidth = 500;
+		tf.y = s2d.height - bgSize.height / 2 - (tf.textHeight * tf.scaleY);
+		tf.x = 50;
 		tf.dropShadow = {
 			dx: 0,
 			dy: 1,
@@ -294,11 +295,31 @@ class Exploration extends GameScene {
 		}
 
 		if (currentMemeory.wordsToFind <= 0 && !readyToexit) {
-			var lines = ["Okay!", "I think I rember now", "[press space] on the book stand to remember"];
-			readyToexit = true;
-			makeDialogue(world, lines, s2d, this);
+			var advanced = currentMemeory.advanceLine();
+			if (advanced) {
+				var memoryLines = [
+					"What was next..?",
+					"I think I'm starting to remember",
+					"How did it go?",
+					"Hmmm",
+					"Why can't I remember?",
+					"Ah, yes",
+					"Next line then..."
+				];
+				var currentLine = currentMemeory.getCurrentLineWithBlanks();
+				Math.shuffle(memoryLines);
+				var lines = [memoryLines[0], '"${currentLine}"', "Let's go shake some more trees"];
+				makeDialogue(world, lines, s2d, this);
+			} else {
+				var lines = ["Okay!", "I think I rember now", "[press space] on the book stand to remember"];
+				readyToexit = true;
+				makeDialogue(world, lines, s2d, this);
+			}
+			return;
 		}
 
-		if (readyToexit) {}
+		if (readyToexit) {
+			Game.game.setGameScene(new Book(Game.game.s2d));
+		}
 	}
 }

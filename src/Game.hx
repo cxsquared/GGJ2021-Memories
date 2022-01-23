@@ -12,7 +12,6 @@ class Game extends hxd.App {
 
 	public static var game:Game;
 	public static var memories:MemoryManager;
-	public static var game:Game;
 
 	public function new() {
 		super();
