@@ -11,10 +11,17 @@ class Drag implements IComponent {
 	public var isDragging:Bool = false;
 
 	public function new(collider:Collider) {
-		interaction = new h2d.Interactive(500, 500, collider);
-
+		interaction = new h2d.Interactive(100, 100, null, collider);
+		interaction.backgroundColor = 128;
+		interaction.focus();
+		interaction.onPush  = function(event : hxd.Event) {
+			isDragging = true;
+		}
+		interaction.onClick  = function(event : hxd.Event) {
+			isDragging = true;
+		}
 		// This is bad and I feel bad, but it works?
-		function OnClick(event : hxd.Event) {
+		/*function OnClick(event : hxd.Event) {
 			if(event.kind.match(EventKind.EPush)){
 				isDragging = true;
 			}
@@ -22,7 +29,7 @@ class Drag implements IComponent {
 				isDragging = false;
 			}
 		}
-		hxd.Window.getInstance().addEventTarget(OnClick);
+		hxd.Window.getInstance().addEventTarget(OnClick);*/
 	}
 
 	public function getType():String {

@@ -1,5 +1,6 @@
 package scenes;
 
+import h2d.Bitmap;
 import system.DialogueController;
 import system.UiRenderer;
 import component.DialogueBox;
