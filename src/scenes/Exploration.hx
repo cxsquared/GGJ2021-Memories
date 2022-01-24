@@ -1,5 +1,8 @@
 package scenes;
 
+import component.Glow;
+import system.Glower;
+import h3d.shader.NoiseLib;
 import memories.Memory;
 import system.BookStandController;
 import h2d.Layers;
@@ -84,6 +87,7 @@ class Exploration extends GameScene {
 		world.newEntity("book stand")
 			.add(new BookStand())
 			.add(new Renderable(bookStand))
+			.add(new Glow(0x005bed))
 			.add(bookCollision)
 			.add(new Transform(bookSpawn.x, bookSpawn.y, bookStand.getSize().width, bookStand.getSize().height));
 
@@ -113,6 +117,7 @@ class Exploration extends GameScene {
 			world.newEntity('tree $i')
 				.add(new Tree())
 				.add(new Shake())
+				.add(new Glow(0x005bed))
 				.add(new Transform(spawn.x, spawn.y, size.width, size.height))
 				.add(collidable)
 				.add(new Renderable(bitmap));
@@ -141,6 +146,7 @@ class Exploration extends GameScene {
 		world.addSystem(new Collision());
 		world.addSystem(new Bouncer());
 		world.addSystem(new Shaker());
+		world.addSystem(new Glower());
 		world.addSystem(new TreeController(spawnWord));
 		world.addSystem(new WordController());
 		world.addSystem(new DialogueController());

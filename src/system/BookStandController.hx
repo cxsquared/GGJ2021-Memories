@@ -5,6 +5,7 @@ import component.BookStand;
 import hxd.Key;
 import component.Player;
 import component.Collidable;
+import component.Glow;
 
 typedef BookInteracted = () -> Void;
 
@@ -22,9 +23,15 @@ class BookStandController implements IPerEntitySystem {
 			return;
 
 		var c:Collidable = cast entity.get(Collidable.type);
+		var g:Glow = cast entity.get(Glow.type);
 
-		if (c.colliding && c.event.target.has(Player.type) && Key.isPressed(Key.SPACE)) {
-			bookInteracted();
+		if (c.colliding && c.event.target.has(Player.type)) {
+			if (Key.isPressed(Key.SPACE)) {
+				bookInteracted();
+			}
+			g.glowing = true;
+		} else {
+			g.glowing = false;
 		}
 	}
 }

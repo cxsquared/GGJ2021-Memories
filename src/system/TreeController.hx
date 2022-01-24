@@ -1,5 +1,6 @@
 package system;
 
+import component.Glow;
 import scenes.Exploration;
 import haxe.Timer;
 import component.Shake;
@@ -38,14 +39,28 @@ class TreeController implements IPerEntitySystem {
 
 		tree.timeTillCanSpawn -= dt;
 
-		if (c.colliding && c.event.target.has(Player.type) && Key.isPressed(Key.SPACE) && !isShaking && tree.timeTillCanSpawn <= 0) {
-			if (s != null) {
-				s.currentTime = 0;
+		if (c.colliding && c.event.target.has(Player.type) && !isShaking && tree.timeTillCanSpawn <= 0) {
+			if (entity.has(Glow.type)) {
+				var g:Glow = cast entity.get(Glow.type);
+
+				g.glowing = true;
 			}
-			Timer.delay(function() {
-				treeCollisionCallback(transform.x, transform.y);
-				tree.timeTillCanSpawn = tree.spawnDelay;
-			}, Std.int(s.length * 999));
+
+			if (Key.isPressed(Key.SPACE)) {
+				if (s != null) {
+					s.currentTime = 0;
+				}
+				Timer.delay(function() {
+					treeCollisionCallback(transform.x, transform.y);
+					tree.timeTillCanSpawn = tree.spawnDelay;
+				}, Std.int(s.length * 999));
+			}
+		}
+
+		if (!c.colliding && entity.has(Glow.type)) {
+			var g:Glow = cast entity.get(Glow.type);
+
+			g.glowing = false;
 		}
 	}
 }

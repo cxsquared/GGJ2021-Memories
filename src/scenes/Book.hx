@@ -10,7 +10,6 @@ import h2d.Console;
 import hxd.res.DefaultFont;
 import h2d.Text;
 import hxd.Math;
-import hxd.Window;
 import component.Word;
 import component.Bounce;
 import component.Drag;
