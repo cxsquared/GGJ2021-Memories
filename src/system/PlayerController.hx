@@ -1,5 +1,7 @@
 package system;
 
+import h2d.Bitmap;
+import component.Renderable;
 import scenes.Exploration;
 import hxd.Math;
 import component.Velocity;
@@ -24,6 +26,7 @@ class PlayerController implements IPerEntitySystem {
 		var t:Transform = cast entity.get(Transform.type);
 		var v:Velocity = cast entity.get(Velocity.type);
 		var p:Player = cast entity.get(Player.type);
+		var r:Renderable = cast entity.get(Renderable.type);
 
 		if (up)
 			v.dy -= p.accel;

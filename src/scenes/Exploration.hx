@@ -1,9 +1,8 @@
 package scenes;
 
+import shaders.WindSwayShader;
 import component.Glow;
 import system.Glower;
-import h3d.shader.NoiseLib;
-import memories.Memory;
 import system.BookStandController;
 import h2d.Layers;
 import component.BookStand;
@@ -71,6 +70,8 @@ class Exploration extends GameScene {
 			}
 		}
 
+		spawnGrass(worldWidth, worldHeight);
+
 		var bookX = Math.srand(100);
 		bookX += bookX > 0 ? 100 : -100;
 		var bookY = Math.srand(100);
@@ -105,7 +106,9 @@ class Exploration extends GameScene {
 			if (spawn == null)
 				continue;
 
+			var shader = new WindSwayShader();
 			var bitmap = new Bitmap(trees[0], layer);
+			bitmap.addShader(shader);
 			layer.add(bitmap, 1);
 			bitmap.colorKey = 0xff00ff;
 			bitmap.setScale(Math.random(.25) + .25);
@@ -167,6 +170,21 @@ class Exploration extends GameScene {
 		world.addSystem(new CameraController(s2d, console));
 
 		makeDialogue(world, ["I don't remember why I'm here...", "I should go check that book"], s2d, this);
+	}
+
+	function spawnGrass(worldWidth:Float, worldHeight:Float) {
+		var numberOfGrass = 20;
+		for (i in 0...numberOfGrass) {
+			var shader = new WindSwayShader(Math.random(3));
+			var bitmap = new Bitmap(Res.grass.toTile(), layer);
+			bitmap.setScale(.05);
+			bitmap.addShader(shader);
+			layer.add(bitmap, 0);
+			var size = bitmap.getSize();
+			world.newEntity('grass $i')
+				.add(new Transform(Math.random(worldWidth), Math.random(worldHeight), size.width, size.height))
+				.add(new Renderable(bitmap));
+		}
 	}
 
 	override function update(dt:Float) {
