@@ -32,25 +32,23 @@ class SplashScreen extends GameScene {
 	var time_passed = 0.0;
 	var time = 5;
 	var scene:Scene;
+
 	public function new(scene:Scene) {
 		this.scene = scene;
 		super(scene);
 	}
 
 	override function init() {
-		var window = Window.getInstance();
 		var splash = new Bitmap(hxd.Res.unknown.toTile(), this);
-		splash.width = window.width;
-		splash.height = window.height;
+		splash.width = scene.width;
+		splash.height = scene.height;
 	}
 
 	override function update(dt:Float) {
 		world.update(dt);
 		time_passed += dt;
-		if (time_passed > time){
+		if (time_passed > time || Key.isPressed(Key.SPACE)) {
 			Game.game.setGameScene(new Exploration(scene));
 		}
 	}
-
-	
 }

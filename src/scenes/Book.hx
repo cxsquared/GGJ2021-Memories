@@ -38,11 +38,10 @@ class Book extends GameScene {
 		console.addCommand("debug", "", [], function() {
 			world.debugLog(console);
 		});
-		var window = Window.getInstance();
 		var bgTile = Res.bookbackground.toTile();
 		var bitmap = new Bitmap(bgTile, this);
-		bitmap.width = window.width;
-		bitmap.height = window.height;
+		bitmap.width = s2d.width;
+		bitmap.height = s2d.height;
 		world.newEntity("bookbackground").add(new Transform()).add(new Renderable(bitmap));
 
 		world.addSystem(new DragController(s2d));
@@ -50,7 +49,7 @@ class Book extends GameScene {
 		world.addSystem(new WordController());
 		world.addSystem(new UiRenderer());
 		world.addSystem(new ButtonController(s2d));
-		
+
 		var memoryWidth = spawnMemory();
 		spawnWords(memoryWidth);
 		spawnFinishMemory(s2d);
@@ -60,13 +59,13 @@ class Book extends GameScene {
 		world.update(dt);
 	}
 
-	function spawnFinishMemory(scene:Scene){
+	function spawnFinishMemory(scene:Scene) {
 		var text = new Text(DefaultFont.get());
-			text.text = "Finish Memory";
-			text.setScale(1.5);
-			text.textColor = 0x000000;
+		text.text = "Finish Memory";
+		text.setScale(1.5);
+		text.textColor = 0x000000;
 		var target = new Point(0, 0);
-		
+
 		var word = new memories.Word(text.text, null);
 		var bgTile = Res.button.toTile();
 		var bitmap = new Bitmap(bgTile, this);
@@ -79,11 +78,10 @@ class Book extends GameScene {
 			.add(new Ui(bitmap))
 			.add(new Word(word, target, target, false))
 			.add(new Transform(0, 0, text.calcTextWidth(word.text) * text.scaleX, text.textHeight * text.scaleY))
-			.add(new Button(this, text.calcTextWidth(word.text) * text.scaleX, text.textHeight * text.scaleY))
-			.add(new Bounce());
+			.add(new Button(this, text.calcTextWidth(word.text) * text.scaleX, text.textHeight * text.scaleY));
 	}
 
-	function spawnMemory() : Float{
+	function spawnMemory():Float {
 		var memory = Game.memories.getCurrentMemory();
 		var lineNumber = 0;
 		var xCoordinate = 45;
@@ -101,10 +99,9 @@ class Book extends GameScene {
 			if (lineLength > longestLine)
 				longestLine = lineLength;
 			world.newEntity()
-				.add(new Word(new memories.Word(line, null), new Point(0,0), target, false))
+				.add(new Word(new memories.Word(line, null), new Point(0, 0), target, false))
 				.add(new Ui(text))
-				.add(new Transform(x, y, text.calcTextWidth(line) * text.scaleX, text.textHeight * text.scaleY))
-				.add(new Bounce());
+				.add(new Transform(x, y, text.calcTextWidth(line) * text.scaleX, text.textHeight * text.scaleY));
 			lineNumber++;
 		}
 		return longestLine;
@@ -117,17 +114,16 @@ class Book extends GameScene {
 			return;
 		}
 
-		var window = Window.getInstance();
-		var width = window.width;
-		var height = window.height;
+		var width = getScene().width;
+		var height = getScene().height;
+		var validWidth = width - memoryWidth - 25;
 		for (word in words) {
 			var text = new Text(DefaultFont.get(), this);
 			text.text = word.text;
 			text.setScale(1);
 			text.textColor = 0x000000;
 			var start = new Point(x, y);
-			var validWidth = width - memoryWidth;
-			var target = new Point(Math.srand(validWidth / 2) + memoryWidth + (validWidth / 2), (height / 2) + Math.srand(height / 2));
+			var target = new Point(Math.srand(validWidth / 2) + memoryWidth + (validWidth / 2), (height / 2) + Math.srand(height / 3));
 			world.newEntity()
 				.add(new Word(word, start, target))
 				.add(new Ui(text))

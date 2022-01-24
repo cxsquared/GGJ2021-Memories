@@ -1,3 +1,5 @@
+import format.abc.Data.ABCData;
+import h2d.Scene.ScaleMode;
 import memories.Word;
 import memories.MemoryManager;
 import memories.MemoryDeserializer;
@@ -19,10 +21,16 @@ class Game extends hxd.App {
 	}
 
 	override function init() {
+		s2d.scaleMode = ScaleMode.Fixed(800, 600, 1);
 		hxd.Res.initEmbed();
 		var memoryText = hxd.Res.memories.entry.getText();
 		var memoryFile = Json.parse(memoryText);
 		memories = new MemoryManager(MemoryDeserializer.deserializeMemoryJson(memoryFile));
+		memories.setRandomMemory();
+
+		#if debug
+		memories.setMemory(1);
+		#end
 
 		setGameScene(new SplashScreen(s2d));
 	}
@@ -40,10 +48,5 @@ class Game extends hxd.App {
 	override function update(dt:Float) {
 		if (scene != null)
 			scene.update(dt);
-
-		#if debug
-		if (Key.isPressed(Key.R))
-			setGameScene(new Book(s2d));
-		#end
 	}
 }

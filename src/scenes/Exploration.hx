@@ -164,8 +164,10 @@ class Exploration extends GameScene {
 	}
 
 	override function update(dt:Float) {
-		layer.ysort(1);
 		#if debug
+		if (console.isActive())
+			return;
+
 		if (Key.isPressed(Key.PGDOWN)) {
 			Game.memories.getCurrentMemory().advanceLine();
 			wordsThatNeedPickedUp = 0;
@@ -174,8 +176,12 @@ class Exploration extends GameScene {
 			var line = Game.memories.getCurrentMemory().getCurrentLine();
 			console.log(line);
 		}
+		if (Key.isPressed(Key.R))
+			Game.game.setGameScene(new Book(s2d));
 		#end
+
 		world.update(dt);
+		layer.ysort(1);
 	}
 
 	function getTreeSpawns(n:Int, worldWidth:Float, worldHeight:Float, bookSpawn:Point):Array<Point> {

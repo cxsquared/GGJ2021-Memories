@@ -30,12 +30,12 @@ class Memory {
 			this.nouns = parseWordType(nounStrings, WordType.NOUN);
 		}
 
-		var pluralNounString:Array<String> = jsonObject.pluralnoun;
+		var pluralNounString:Array<String> = jsonObject.pluralnouns;
 		if (pluralNounString != null) {
 			this.pluralnoun = parseWordType(pluralNounString, WordType.PLURALNOUN);
 		}
 
-		var pasttenseverbStrings:Array<String> = jsonObject.pasttenseverb;
+		var pasttenseverbStrings:Array<String> = jsonObject.pasttenseverbs;
 		if (pasttenseverbStrings != null) {
 			this.pasttenseverb = parseWordType(pasttenseverbStrings, WordType.PASTTENSEVERB);
 		}
@@ -163,7 +163,7 @@ class Memory {
 		line = StringTools.replace(line, "${noun}", "___");
 		line = StringTools.replace(line, "${adjective}", "__");
 		line = StringTools.replace(line, "${verb}", "____");
-		line = StringTools.replace(line, "${inverb}", "_____");
+		line = StringTools.replace(line, "${ingverb}", "_____");
 		line = StringTools.replace(line, "${pluralnoun}", "___");
 		line = StringTools.replace(line, "${pasttenseverb}", "___");
 		line = StringTools.replace(line, "${relationship}", "___");
