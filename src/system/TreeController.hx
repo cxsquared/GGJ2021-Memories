@@ -1,5 +1,7 @@
 package system;
 
+import event.TreeShakeEvent;
+import event.EventBus;
 import component.Glow;
 import scenes.Exploration;
 import haxe.Timer;
@@ -10,15 +12,15 @@ import component.Transform;
 import component.Collidable;
 import component.Tree;
 
-typedef TreeCollisionCallback = (x:Float, y:Float) -> Void;
-
 class TreeController implements IPerEntitySystem {
 	public var forComponents:Array<String> = [Tree.type, Collidable.type, Transform.type];
 
-	public var treeCollisionCallback:TreeCollisionCallback;
+	var eventBus:EventBus;
 
-	public function new(treeCollisionCallback:TreeCollisionCallback) {
-		this.treeCollisionCallback = treeCollisionCallback;
+	public function new(eventBus:EventBus) {
+		this.eventBus = eventBus;
+
+		eventBus.register(TreeShakeEvent);
 	}
 
 	public function update(entity:Entity, dt:Float) {
@@ -51,7 +53,7 @@ class TreeController implements IPerEntitySystem {
 					s.currentTime = 0;
 				}
 				Timer.delay(function() {
-					treeCollisionCallback(transform.x, transform.y);
+					eventBus.publishEvent(new TreeShakeEvent(transform.x, transform.y));
 					tree.timeTillCanSpawn = tree.spawnDelay;
 				}, Std.int(s.length * 999));
 			}

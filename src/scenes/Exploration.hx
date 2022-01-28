@@ -1,5 +1,7 @@
 package scenes;
 
+import event.TreeShakeEvent;
+import event.EventBus;
 import shaders.WindSwayShader;
 import component.Glow;
 import system.Glower;
@@ -46,6 +48,7 @@ class Exploration extends GameScene {
 	var console:Console;
 	var s2d:Scene;
 	var layer:Layers;
+	var eventBus:EventBus = new EventBus();
 
 	public static var dialogueShowing = false;
 
@@ -150,7 +153,7 @@ class Exploration extends GameScene {
 		world.addSystem(new Bouncer());
 		world.addSystem(new Shaker());
 		world.addSystem(new Glower());
-		world.addSystem(new TreeController(spawnWord));
+		world.addSystem(new TreeController(eventBus));
 		world.addSystem(new WordController());
 		world.addSystem(new DialogueController());
 		world.addSystem(new Renderer(camera));
@@ -170,6 +173,8 @@ class Exploration extends GameScene {
 		world.addSystem(new CameraController(s2d, console));
 
 		makeDialogue(world, ["I don't remember why I'm here...", "I should go check that book"], s2d, this);
+
+		eventBus.subscribe(TreeShakeEvent, spawnWord);
 	}
 
 	function spawnGrass(worldWidth:Float, worldHeight:Float) {
@@ -241,7 +246,10 @@ class Exploration extends GameScene {
 		return false;
 	}
 
-	function spawnWord(x:Float, y:Float) {
+	function spawnWord(event:TreeShakeEvent) {
+		var x = event.x;
+		var y = event.y;
+
 		var word = Game.memories.getCurrentMemory().getWord();
 
 		if (word == null) {
